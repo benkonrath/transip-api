@@ -1,0 +1,9 @@
+# Python virtualenv
+/bin
+/include
+/lib
+/local
+/*.egg-info
+/*.egg
+*.pyc
+*.pyo
