@@ -1,3 +1,8 @@
 -e .
 bpython
 nose
+coverage
+suds
+rsa
+urimagic
+
