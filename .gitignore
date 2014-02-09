@@ -7,3 +7,12 @@
 /*.egg
 *.pyc
 *.pyo
+
+# Test artifact
+/.coverage
+
+# Don't check in unencrypted key
+/decrypted
+
+# PHP Examples
+/transipAPI
