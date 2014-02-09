@@ -1,78 +1,102 @@
-import base64
-import time
-import uuid
+"""
+The Client class, handling direct communication with the API
+"""
+
 import rsa
+import uuid
+import time
+import base64
 import urllib
+
+from . import __version__
+
 from collections import OrderedDict
 from urimagic import percent_encode
 
-from pprint import pprint
-
-from suds.client import Client
+import suds
 from suds.xsd.doctor import ImportDoctor, Import
 
-import logging
-logging.basicConfig(level=logging.INFO)
 
-logging.getLogger('suds.client').setLevel(logging.DEBUG)
+URI_TEMPLATE = "https://api.transip.nl/wsdl/?service={}"
 
+MODE_RO = 'readonly'
+MODE_RW = 'readwrite'
 
-def main():
+class Client(object):
+    """
+        A client-base class
+    """
 
-	serviceName = 'DomainService'
-	url         = 'https://api.transip.nl/wsdl/?service=%s' % serviceName
-	endpoint    = 'api.transip.nl'
-	timestamp   = int(time.time())
-	nonce       = str(uuid.uuid4())[:32]
+    login = 'sundayafternoon'
+    endpoint = 'api.transip.nl'
+    private_file = 'decrypted'
+    service_name = None
+    soap_client = None
+    url = None
 
-	cookies = {
-		"nonce"    : nonce,
-		"timestamp": timestamp,
-		"mode"     : "readonly",
-		"login"    : "sundayafternoon"
-	}
-
-	sign = OrderedDict()
-	sign['__method']    = 'getDomainNames'
-	sign['__service']   = serviceName
-	sign['__hostname']  = endpoint
-	sign['__timestamp'] = timestamp
-	sign['__nonce']     = nonce
+    def __init__(self, service_name):
+        """ Initialiser """
+        self.service_name = service_name
+        self.url = URI_TEMPLATE.format(self.service_name)
+        self._init_soap_client()
 
 
-	mesg = urllib.urlencode(sign)
-	print("TO SIGN: {}".format(mesg))
-	signature = ''
-	with open('decrypted') as encrypted_privatefile:
-		keydata = encrypted_privatefile.read()
-		privkey = rsa.PrivateKey.load_pkcs1(keydata)
-		signature = rsa.sign(mesg, privkey, 'SHA-512')
-		signature = base64.b64encode(signature)
-		signature = urllib.quote_plus(signature)
+    def _sign(self, message):
+        """ Signs the request """
+        signature = None
+        with open(self.private_file) as private_key:
+            keydata = private_key.read()
+            privkey = rsa.PrivateKey.load_pkcs1(keydata)
+            signature = rsa.sign(message, privkey, 'SHA-512')
+            signature = base64.b64encode(signature)
+            signature = urllib.quote_plus(signature)
 
-	cookies['signature'] = signature;
+        return signature
+
+    def _build_signature_message(self, service_name, method_name,
+            timestamp, nonce):
+        """ Builds the message that should be signed """
+        sign = OrderedDict()
+        sign['__method'] = method_name
+        sign['__service'] = service_name
+        sign['__hostname'] = self.endpoint
+        sign['__timestamp'] = timestamp
+        sign['__nonce'] = nonce
+
+        return urllib.urlencode(sign)
+
+    def update_cookie(self, cookies):
+        """ Updates the cookie for the request """
+        temp = []
+        for k, val in cookies.items():
+            temp.append("%s=%s"%(k, val))
+
+        cookiestring = ';'.join(temp)
+        self.soap_client.set_options(headers={'Cookie' : cookiestring})
+
+    def build_cookie(self, method, mode):
+        """ Build a cookie for the request """
+        timestamp = int(time.time())
+        nonce = str(uuid.uuid4())[:32]
+
+        signature = self._sign(self._build_signature_message(
+            service_name=self.service_name, method_name=method,
+            timestamp=timestamp, nonce=nonce))
+
+        cookies = {
+            "nonce"         : nonce,
+            "timestamp"     : timestamp,
+            "mode"          : mode,
+            "clientVersion" : __version__,
+            "login"         : self.login,
+            "signature"     : signature
+        }
+
+        return cookies
 
 
-	foo = []
-	for k,v in cookies.items():
-		foo.append("%s=%s"%(k,v))
-
-	cookiestring = ';'.join(foo)
-
-
-	
-
-	cookiestring = "%s;signature=%s" % (cookiestring, signature)
-
-	headers = { 'Cookie' : cookiestring }
-	
-	imp = Import('http://schemas.xmlsoap.org/soap/encoding/')
-	d = ImportDoctor(imp)
-	client = Client(url, doctor=d, headers=headers)
-
-	dn = client.service.getDomainNames()
-	print(dn)
-
-
-if __name__ == '__main__':
-	main()
+    def _init_soap_client(self):
+        """ Initialises the suds soap-client """
+        imp = Import('http://schemas.xmlsoap.org/soap/encoding/')
+        doc = ImportDoctor(imp)
+        self.soap_client = suds.client.Client(self.url, doctor=doc)

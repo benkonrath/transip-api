@@ -9,3 +9,6 @@ __version__ = "0.1.0-dev"
 __copyright__ = "Copyright (C) 2013 Go About B.V."
 __license__ = "MIT License"
 
+
+from transip.client import Client
+

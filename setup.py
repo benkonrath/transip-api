@@ -19,7 +19,7 @@ setup(
     test_suite = 'tests',
     entry_points = {
         'console_scripts': [
-            'transip-api = transip.client:main',
+            'transip-api = transip.transip_cli:main',
         ],
     },
     install_requires = [

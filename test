@@ -1,0 +1,4 @@
+#!/bin/zsh
+
+rm **/*.pyc
+nosetests --rednose --with-coverage --cover-package=transip
