@@ -1,3 +1,10 @@
 -e .
 bpython
 nose
+rednose
+mock
+coverage
+suds
+rsa
+urimagic
+pylint
