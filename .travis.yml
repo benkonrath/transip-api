@@ -1,0 +1,11 @@
+language: python
+
+python:
+  - "3.3"
+  - "2.7"
+
+install: pip install -r dev_requirements.txt --use-mirrors
+
+script: 
+ - nosetests --rednose --with-coverage --cover-package=transip 
+ - pylint --rcfile=.pylintrc transip
