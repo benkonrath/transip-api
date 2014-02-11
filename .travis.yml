@@ -1,0 +1,18 @@
+language: python
+
+python:
+  - "3.3"
+  - "2.7"
+
+before_install:
+ - sudo apt-get install python-virtualenv
+ - virtualenv ~/.virtualenv
+ - . ~/.virtualenv/bin/activate
+
+install: 
+ - pip install -r dev_requirements.txt
+
+script: 
+ - virtualenv .
+ - nosetests --rednose --with-coverage --cover-package=transip 
+ - pylint --rcfile=.pylintrc transip

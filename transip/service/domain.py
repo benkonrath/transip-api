@@ -1,6 +1,6 @@
 """ The connector to Domain related API calls """
-from .. import Client
-from transip.client import MODE_RO
+
+from transip.client import Client, MODE_RO
 
 class DomainService(Client):
     """ Representation of the DomainService API calls for TransIP """

@@ -1,6 +1,7 @@
+# vim: set fileencoding=utf-8 :
 import unittest
 import mock
-from mock import patch
+from mock import patch, Mock
 
 import suds
 
@@ -20,15 +21,15 @@ class TestClient(unittest.TestCase):
 
     @patch('suds.client.Client')
     def testSignatureIsCorrect(self, mock_client):
-
         # SETUP
-        reference1 = 'OkWhzVgYPeERy1ItxUHr31A%2F80MQlo75VkJLCSwmZ2xbIyUXrx2S%2BSwNJfJT3r3t8PQzya04r5RqhXxqezMlDfGHALxQ24GgMCl8iGjTfNoSDSuoTCA78AzfVbESN5jXWixvTdfiQRyiaPbv6CGpQ6jDw1nU6yEvchzIzMT%2FuO5y9gHA%2FKpx0W7JHR9x2J1QMq7CRj3GE2n9ASrwyKDzem2M%2F592c5WURAtjReUI00Wks3egl5gquwtg91I78qHu%2Fnbv06JJVQalPpKFerHhBp%2BL6ZGxObX%2BRHTofwXuiCIC911lgyz6xXKz0u2%2FLzVLAykU7W3XXIIDP58Eym3LUA%3D%3D'
+        reference1 = 'ZurqqM1HQTWqYb5IOFYEk%2BGw7a2I%2FknIHEw9lJag%2FnHDp3XfZYj%2F89GTjM52x6spJEJtUnUpSZ02DsVoaJlGl4iZEMk0%2FbWcP5ODRJhASHHsznHWfbK3wY5bk2kDjjsaaaVNlNVIWl52tPpHOrWAaca0uaMVLWuM6IP1tdiWsFI%3D'
         to_sign1   = '__method=getDomainNames&__service=DomainService&__hostname=api.transip.nl&__timestamp=1390235362&__nonce=2e49613c-35b9-4827-a882-8d755504'
 
-        reference2 = 'brraypeNe2GlIW3xUJLRlOigk534UVIe3iSFdYcHvV2a3D26Q%2F94rL415KTrnd3ayFff7CgJY%2FV0aJVnBGUJQCcEyW3GAdVN54MNm4FKzsSqVThUHyIVZBkhl2uQMS0FpnpMGecRbnytptaIW2o6G1itTYjuMpYbqZS9zfpHGe3Aui3p%2FmqiRxpiBsTTNCXvE0sSHY%2F08XdGU0vM40%2BaQJ51C7b08GIWYtoYYD1AVbwPFo3c8C3LQ0IAXTjtwe5Bf2y5L9xAKauXttVrljKyQsscTfayNPYfRjXLsoO0DybhOTXLV4unEXpm523mMNSXFZOCcNxdhpj2gfQsDVgbcA%3D%3D'
+        reference2 = 'ly2K%2BZjs45hMqTsF%2BxwwHeTvqlHHchvLkRokP16EISaukSkOf714bA0QJA7QxipxPQEHyWNoezD5g3vb2OWv38N8U%2BFLGbcpoT89hi2Zsv7B96QBcew8cxvgwdBM0rM8ixYuw%2FyASsG%2BLvyEzo55eXE3st2aAsG5CP1xwQdLG0I%3D'
         to_sign2   = '__method=getDomainNames&__service=DomainService&__hostname=api.transip.nl&__timestamp=1390236369&__nonce=e0736a8f-fcf4-435f-a7f1-c1d2ccaa'
 
         c = Client('foo')
+        c.private_file = 'test_key'
 
         # CALL
         signature1 = c._sign(to_sign1)
@@ -52,9 +53,11 @@ class TestClient(unittest.TestCase):
 
     @patch('uuid.uuid4')
     @patch('time.time')
-    def testBuildCookies(self, mock_time, mock_uuid):
+    @patch('suds.client.Client')
+    def testBuildCookies(self, mock_client, mock_time, mock_uuid):
         # SETUP
         c = Client('DomainService')
+        c.private_file = 'test_key'
 
         mock_uuid.return_value = '2e49613c-35b9-4827-a882-8d755504'
         mock_time.return_value = 1390235362
@@ -65,7 +68,7 @@ class TestClient(unittest.TestCase):
             'timestamp': 1390235362,
             'nonce': '2e49613c-35b9-4827-a882-8d755504',
             'clientVersion': transip.__version__,
-            'signature':'OkWhzVgYPeERy1ItxUHr31A%2F80MQlo75VkJLCSwmZ2xbIyUXrx2S%2BSwNJfJT3r3t8PQzya04r5RqhXxqezMlDfGHALxQ24GgMCl8iGjTfNoSDSuoTCA78AzfVbESN5jXWixvTdfiQRyiaPbv6CGpQ6jDw1nU6yEvchzIzMT%2FuO5y9gHA%2FKpx0W7JHR9x2J1QMq7CRj3GE2n9ASrwyKDzem2M%2F592c5WURAtjReUI00Wks3egl5gquwtg91I78qHu%2Fnbv06JJVQalPpKFerHhBp%2BL6ZGxObX%2BRHTofwXuiCIC911lgyz6xXKz0u2%2FLzVLAykU7W3XXIIDP58Eym3LUA%3D%3D'
+            'signature':'ZurqqM1HQTWqYb5IOFYEk%2BGw7a2I%2FknIHEw9lJag%2FnHDp3XfZYj%2F89GTjM52x6spJEJtUnUpSZ02DsVoaJlGl4iZEMk0%2FbWcP5ODRJhASHHsznHWfbK3wY5bk2kDjjsaaaVNlNVIWl52tPpHOrWAaca0uaMVLWuM6IP1tdiWsFI%3D'
         }
 
         # CALL
