@@ -2,7 +2,7 @@
 TransIP API
 ===========
 
-.. image:: https://travis-ci.org/mhogerheijde/transip-api.png?branch=master
+.. image:: https://travis-ci.org/mhogerheijde/transip-api.png?branch=develop
    :align: right
    :target: https://travis-ci.org/mhogerheijde/transip-api
 
