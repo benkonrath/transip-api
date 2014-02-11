@@ -15,4 +15,5 @@ class DomainService(Client):
         """
         cookie = self.build_cookie(mode=MODE_RO, method='getDomainNames')
         self.update_cookie(cookie)
-        return [] # self.soap_client.service.getDomainNames()
+
+        return self.soap_client.service.getDomainNames()
