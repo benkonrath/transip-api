@@ -12,7 +12,8 @@
 /.coverage
 
 # Don't check in unencrypted key
-/decrypted
+/decrypted_key
+/encrypted_key
 
 # PHP Examples
 /transipAPI

@@ -31,7 +31,7 @@ class Client(object):
 
     login = 'sundayafternoon'
     endpoint = 'api.transip.nl'
-    private_file = 'decrypted'
+    private_file = 'decrypted_key'
     service_name = None
     soap_client = None
     url = None
