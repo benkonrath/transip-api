@@ -58,7 +58,7 @@ class Client(object):
     def _build_signature_message(self, service_name, method_name,
             timestamp, nonce):
         """
-        Builds the message that sould be signed. This message contains
+        Builds the message that should be signed. This message contains
         specific information about the request in a specific order.
         """
         sign = OrderedDict()
