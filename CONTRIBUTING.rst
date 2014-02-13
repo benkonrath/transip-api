@@ -52,7 +52,10 @@ Testing
 
 This project uses `unittest` to automatically test the software. Every Pull
 Request should contain tests, unless it is clear why they are not needed. (e.g.
-document change only, bugfixes that don't change behaviour)
+document change only, changes that don't change behaviour.)
+
+..IMPORTANT:: Bugfixes should add a test that fails with the bug unfixed, but
+              passes with the bux fixed.
 
 TravisCI
 --------
