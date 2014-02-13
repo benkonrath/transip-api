@@ -116,7 +116,7 @@ ignore-long-lines=^\s*(# )?<?https?://\S+>?$
 
 # Allow the body of an if to be on the same line as the test if there is no
 # else.
-single-line-if-stmt=no
+single-line-if-stmt=yes
 
 # List of optional constructs for which whitespace checking is disabled
 no-space-check=trailing-comma,dict-separator
