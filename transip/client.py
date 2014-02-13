@@ -56,12 +56,18 @@ class Client(object):
         return signature
 
     def _build_signature_message(self, service_name, method_name,
-            timestamp, nonce):
+            timestamp, nonce, additional=None):
         """
         Builds the message that should be signed. This message contains
         specific information about the request in a specific order.
         """
+        if additional is None:
+            additional = []
+
         sign = OrderedDict()
+        # Add all additional parameters first
+        for index, value in enumerate(additional):
+            sign[index] = value
         sign['__method'] = method_name
         sign['__service'] = service_name
         sign['__hostname'] = self.endpoint
@@ -79,7 +85,7 @@ class Client(object):
         cookiestring = ';'.join(temp)
         self.soap_client.set_options(headers={'Cookie' : cookiestring})
 
-    def build_cookie(self, method, mode):
+    def build_cookie(self, method, mode, parameters=None):
         """
         Build a cookie for the request.
 
@@ -92,7 +98,7 @@ class Client(object):
 
         signature = self._sign(self._build_signature_message(
             service_name=self.service_name, method_name=method,
-            timestamp=timestamp, nonce=nonce))
+            timestamp=timestamp, nonce=nonce, additional=parameters))
 
         cookies = {
             "nonce"         : nonce,

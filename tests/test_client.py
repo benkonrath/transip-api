@@ -51,6 +51,20 @@ class TestClient(unittest.TestCase):
         # VERIFY
         self.assertEqual(message, reference)
 
+    @patch('suds.client.Client')
+    def testBuildSignatureWithAdditinalParameters(self, mock_client):
+        # SETUP
+        c = Client('foo')
+        reference = '0=foo&1=bar&__method=getDomainNames&__service=DomainService&__hostname=api.transip.nl&__timestamp=123&__nonce=TEST-NONCE'
+
+        additional = ['foo', 'bar']
+
+        # CALL
+        message = c._build_signature_message('DomainService', 'getDomainNames', 123, 'TEST-NONCE', additional)
+
+        # VERIFY
+        self.assertEqual(message, reference)
+
     @patch('uuid.uuid4')
     @patch('time.time')
     @patch('suds.client.Client')
@@ -59,16 +73,19 @@ class TestClient(unittest.TestCase):
         c = Client('DomainService')
         c.private_file = 'test_key'
 
-        mock_uuid.return_value = '2e49613c-35b9-4827-a882-8d755504'
-        mock_time.return_value = 1390235362
+        mock_uuid.return_value = 'MOCKED-NONCE'
+        mock_time.return_value = 123
+
+        c._sign = Mock()
+        c._sign.return_value = "MOCKED-SIGNATURE"
 
         reference_cookie = {
             'login': 'sundayafternoon',
             'mode': MODE_RO,
-            'timestamp': 1390235362,
-            'nonce': '2e49613c-35b9-4827-a882-8d755504',
+            'timestamp': 123,
+            'nonce': 'MOCKED-NONCE',
             'clientVersion': transip.__version__,
-            'signature':'ZurqqM1HQTWqYb5IOFYEk%2BGw7a2I%2FknIHEw9lJag%2FnHDp3XfZYj%2F89GTjM52x6spJEJtUnUpSZ02DsVoaJlGl4iZEMk0%2FbWcP5ODRJhASHHsznHWfbK3wY5bk2kDjjsaaaVNlNVIWl52tPpHOrWAaca0uaMVLWuM6IP1tdiWsFI%3D'
+            'signature':'MOCKED-SIGNATURE'
         }
 
         # CALL
@@ -77,7 +94,39 @@ class TestClient(unittest.TestCase):
         # VERIFY
         self.maxDiff = None
         self.assertEqual(cookie, reference_cookie)
+        c._sign.assert_called_with('__method=getDomainNames&__service=DomainService&__hostname=api.transip.nl&__timestamp=123&__nonce=MOCKED-NONCE')
 
+    @patch('uuid.uuid4')
+    @patch('time.time')
+    @patch('suds.client.Client')
+    def testBuildCookiesWithAdditionalParameters(self, mock_client, mock_time, mock_uuid):
+        # SETUP
+        c = Client('DomainService')
+        c.private_file = 'test_key'
+
+        
+        c._sign = Mock()
+        c._sign.return_value = "MOCKED-SIGNATURE"
+
+        mock_uuid.return_value = 'MOCKED-NONCE'
+        mock_time.return_value = 123
+
+        reference_cookie = {
+            'login': 'sundayafternoon',
+            'mode': MODE_RO,
+            'timestamp': 123,
+            'nonce': 'MOCKED-NONCE',
+            'clientVersion': transip.__version__,
+            'signature':'MOCKED-SIGNATURE'
+        }
+
+        # CALL
+        cookie = c.build_cookie(mode = 'readonly', method = 'getInfo', parameters=['example.com'])
+
+        # VERIFY
+        self.maxDiff = None
+        self.assertEqual(cookie, reference_cookie)
+        c._sign.assert_called_with('0=example.com&__method=getInfo&__service=DomainService&__hostname=api.transip.nl&__timestamp=123&__nonce=MOCKED-NONCE')
 
     @patch('suds.xsd.doctor.ImportDoctor')
     @patch('suds.xsd.doctor.Import')
@@ -104,8 +153,3 @@ class TestClient(unittest.TestCase):
         # VERIFY
         c.soap_client.set_options.assert_called_with(headers={'Cookie': 'foo=bar;baz=qux'})
 
-
-
-
-
-    
