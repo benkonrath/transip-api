@@ -7,7 +7,7 @@ from transip.service.domain import DomainService
 
 import logging
 logging.basicConfig(level=logging.INFO)
-logging.getLogger('suds.client').setLevel(logging.DEBUG)
+logging.getLogger('suds.client').setLevel(logging.INFO)
 
 
 def main():
