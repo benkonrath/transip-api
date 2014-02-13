@@ -8,8 +8,8 @@ TransIP API
 
 This library aims to implement the `TransIP API`_ in Python.
 
-Usage
-=====
+Quick Start
+===========
 
 Prerequisite
 ------------
@@ -34,35 +34,20 @@ Setup
 Example
 -------
 
+The command-line interpreter is a bit silly right now, it only does a
+getDomainNames() call.
+
 .. code-block::
 
 	$ transip-api
 	[example.com, example.org, example.net]
 
 
-Contribute
-==========
-
-This project uses git & python.
-
-You can fork this repository:
-
-.. code-block::
-
-	https://github.com/goabout/goabout-backend/fork
-	
-Isolating the Python environment with virtualenv_ is recommended. Use the following commands to set up a development environment within the Git workspace:
-
-.. code-block::
-
-	virtualenv .
-	. bin/activate
-	pip install -r dev_requirements.txt
-
 Documentation
 =============
 
-The documentation can be found in the ``docs`` directory.
+Further documentation can be found in the ``docs`` directory, although this is
+not filled in yet.
 
 .. _virtualenv: http://virtualenv.org/
 .. _TransIP: https://www.transip.nl/cp/
