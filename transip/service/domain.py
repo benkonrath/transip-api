@@ -1,6 +1,6 @@
 """ The connector to Domain related API calls """
 
-from transip.client import Client, MODE_RO
+from transip.client import Client, MODE_RO, MODE_RW
 
 class DomainService(Client):
     """ Representation of the DomainService API calls for TransIP """
@@ -26,3 +26,17 @@ class DomainService(Client):
         self.update_cookie(cookie)
 
         return self.soap_client.service.getInfo(domain_name)
+
+    def set_dns_entries(self, domain_name, dns_entries):
+        """
+        Sets the DnEntries for this Domain, will replace ALL existing dns entries with the new entries
+
+        :param domain_name: the domainName to change the dns entries for
+        :param dns_entries: the list of ALL DnsEntries for this domain
+        :type domain_name: basestring
+        :type dns_entries: list
+        """
+        cookie = self.build_cookie(mode=MODE_RW, method='setDnsEntries', parameters=[domain_name, dns_entries])
+        self.update_cookie(cookie)
+
+        return self.soap_client.service.setDnsEntries(domain_name, dns_entries)
