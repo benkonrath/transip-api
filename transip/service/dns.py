@@ -1,13 +1,9 @@
-"""
-DNS related objects
-"""
-
 from suds.sudsobject import Object as SudsObject
 
 
 class DnsEntry(SudsObject):
     """
-    Representation of the DnsEntry object
+    Representation of a DNS record as expected by the API
     """
     TYPE_A = 'A'
     TYPE_AAAA = 'AAAA'
@@ -22,7 +18,7 @@ class DnsEntry(SudsObject):
     type = None
     content = None
 
-    def __init__(self, name, expire, type, content):
+    def __init__(self, name, expire, record_type, content):
         """
         Constructs a new DnsEntry of the form
         www  IN  86400   A       127.0.0.1
@@ -32,11 +28,11 @@ class DnsEntry(SudsObject):
 
         :param name: the name of this DnsEntry, e.g. www, mail or @
         :param expire: the expiration period of the dns entry, in seconds. For example 86400 for a day
-        :param type: the type of this entry, one of the TYPE_ constants in this class
+        :param record_type: the type of this entry, one of the TYPE_ constants in this class
         :param content: content of of the dns entry, for example '10 mail', '127.0.0.1' or 'www'
         :type name: basestring
         :type expire: int
-        :type type: basestring
+        :type record_type: basestring
         :type content: basestring
         """
 
@@ -46,5 +42,5 @@ class DnsEntry(SudsObject):
         # Assign the fields
         self.name = name
         self.expire = expire
-        self.type = type
+        self.type = record_type
         self.content = content
