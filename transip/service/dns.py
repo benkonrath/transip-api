@@ -1,7 +1,14 @@
+"""
+DNS related objects
+"""
+
 from suds.sudsobject import Object as SudsObject
 
 
 class DnsEntry(SudsObject):
+    """
+    Representation of the DnsEntry object
+    """
     TYPE_A = 'A'
     TYPE_AAAA = 'AAAA'
     TYPE_CNAME = 'CNAME'

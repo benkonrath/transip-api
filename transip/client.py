@@ -57,7 +57,7 @@ class Client(object):
         return signature
 
     def _build_signature_message(self, service_name, method_name,
-            timestamp, nonce, additional=None):
+                                 timestamp, nonce, additional=None):
         """
         Builds the message that should be signed. This message contains
         specific information about the request in a specific order.

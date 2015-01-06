@@ -21,8 +21,7 @@ class DomainService(Client):
     def get_info(self, domain_name):
         """Retrieves information about the requested domain-name."""
 
-        cookie = self.build_cookie(mode=MODE_RO, method='getInfo',
-            parameters=[domain_name])
+        cookie = self.build_cookie(mode=MODE_RO, method='getInfo', parameters=[domain_name])
         self.update_cookie(cookie)
 
         return self.soap_client.service.getInfo(domain_name)
