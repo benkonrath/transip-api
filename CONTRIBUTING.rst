@@ -9,7 +9,7 @@ Setup
 
 In order to contribute, please start by making your own fork_ of this
 repository, and proceed to clone your own nifty fork to your local machine.
-	
+
 Isolating the Python environment with virtualenv_ is recommended. Use the
 following commands to set up a development environment within the Git workspace:
 
@@ -47,15 +47,34 @@ Request from your develop branch and you continue developing, all new commits
 get added to the Pull-Request, which is clearly not wanted.
 
 
-Testing
-=======
+Testing & Code-quality
+======================
 
 This project uses `unittest` to automatically test the software. Every Pull
 Request should contain tests, unless it is clear why they are not needed. (e.g.
 document change only, changes that don't change behaviour.)
 
-..IMPORTANT:: Bugfixes should add a test that fails with the bug unfixed, but
-              passes with the bux fixed.
+To ensure consistent code, pylint has been enabled for this project. Included is
+a `.pylintrc` file, with configuration for this project.
+
+To run tests & pylint you can run these two commands
+
+.. code-block::
+
+    $ nosetests --rednose --with-coverage --cover-package=transip
+    $ pylint --rcfile=.pylintrc transip
+
+NOTE:
+
+    pylint configuration is not set in stone. Change the configuration if
+    you feel the need to do so. Please do explain the reason for changing
+    the configuration in the Pull-Request.
+
+IMPORTANT:
+
+    Bugfixes should add a test that fails with the bug unfixed, but
+    passes with the bux fixed.
+
 
 TravisCI
 --------
