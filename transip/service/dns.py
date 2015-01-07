@@ -1,3 +1,8 @@
+# pylint: disable=too-few-public-methods
+"""
+Contains classes related to the DNS part of the API
+"""
+
 from suds.sudsobject import Object as SudsObject
 
 
