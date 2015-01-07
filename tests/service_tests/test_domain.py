@@ -42,16 +42,18 @@ class TestDomainService(unittest.TestCase):
         ds.update_cookie = Mock()
 
         i = mock_client.return_value
-        i.service.getInfo.return_value = [ 'foo' ]
+        getinfo_result = Mock()
+        getinfo_result.dnsEntries = [DnsEntry('testentry', 86400, DnsEntry.TYPE_A, '127.0.0.1')]
+        i.service.getInfo.return_value = getinfo_result
 
         # CALL
         result = ds.get_info('example.com')
 
         # VERIFY
         ds.build_cookie.assert_called_with(mode=MODE_RO, method='getInfo', parameters=['example.com'])
-        ds.update_cookie.assert_called_with({"cookie":"value"})
+        ds.update_cookie.assert_called_with({"cookie": "value"})
         i.service.getInfo.assert_called_with('example.com')
-        self.assertEqual(result, [ 'foo' ])
+        self.assertEqual(result, getinfo_result)
 
     @patch('suds.client.Client')
     def testSetDnsEntries(self, mock_client):
