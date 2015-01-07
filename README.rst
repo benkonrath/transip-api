@@ -34,13 +34,44 @@ Setup
 Example
 -------
 
-The command-line interpreter is a bit silly right now, it only does a
-getDomainNames() call.
+The command-line interpreter doesn't do much yet. By default it does a
+getDomainNames() call, but with the '-u' option it's also possible to add or
+update DNS records. When calling it with '-h', it will show all available options.
 
 .. code-block::
 
 	$ transip-api
 	[example.com, example.org, example.net]
+	
+	$ transip-api -h
+	usage: transip-api [-h] [-l LOGINNAME] [-u] [--entry-domain ENTRY_DOMAIN]
+	                   [--entry-name ENTRY_NAME] [--entry-expire ENTRY_EXPIRE]
+	                   [--entry-type ENTRY_TYPE]
+	                   [--entry-content ENTRY_CONTENT]
+	
+	optional arguments:
+	  -h, --help            show this help message and exit
+	  -l LOGINNAME, --login-name LOGINNAME
+	                        TransIP username
+	  -u, --update-dns-entry
+	                        add or update an entry in the DNS
+	  --entry-domain ENTRY_DOMAIN
+	                        domain name to update the entry in
+	  --entry-name ENTRY_NAME
+	                        name of the DNS entry
+	  --entry-expire ENTRY_EXPIRE
+	                        expire time of the DNS entry
+	  --entry-type ENTRY_TYPE
+	                        type of the DNS entry
+	  --entry-content ENTRY_CONTENT
+	                        content of the DNS entry
+
+Example of adding/updating a record:
+
+.. code-block::
+
+	$ transip-api -l githubuser -u --entry-domain example.com --entry-name testentry --entry-expire 86400 --entry-type A --entry-content 127.0.0.1
+	Request finished successfully.
 
 
 Documentation
