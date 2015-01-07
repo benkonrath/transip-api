@@ -15,6 +15,7 @@ from collections import OrderedDict
 
 import suds
 from suds.xsd.doctor import ImportDoctor, Import
+from suds.sudsobject import Object as SudsObject
 
 
 URI_TEMPLATE = "https://api.transip.nl/wsdl/?service={}"
@@ -56,7 +57,7 @@ class Client(object):
         return signature
 
     def _build_signature_message(self, service_name, method_name,
-            timestamp, nonce, additional=None):
+                                 timestamp, nonce, additional=None):
         """
         Builds the message that should be signed. This message contains
         specific information about the request in a specific order.
@@ -67,14 +68,20 @@ class Client(object):
         sign = OrderedDict()
         # Add all additional parameters first
         for index, value in enumerate(additional):
-            sign[index] = value
+            if isinstance(value, list):
+                for entryindex, entryvalue in enumerate(value):
+                    if isinstance(entryvalue, SudsObject):
+                        for objectkey, objectvalue in entryvalue:
+                            sign[str(index)+'['+str(entryindex)+']['+objectkey+']'] = objectvalue
+            else:
+                sign[index] = value
         sign['__method'] = method_name
         sign['__service'] = service_name
         sign['__hostname'] = self.endpoint
         sign['__timestamp'] = timestamp
         sign['__nonce'] = nonce
 
-        return urllib.urlencode(sign)
+        return urllib.urlencode(sign).replace('%5B', '[').replace('%5D', ']')
 
     def update_cookie(self, cookies):
         """ Updates the cookie for the upcoming call to the API. """
