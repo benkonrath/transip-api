@@ -44,19 +44,24 @@ update DNS records. When calling it with '-h', it will show all available option
 	[example.com, example.org, example.net]
 	
 	$ transip-api -h
-	usage: transip-api [-h] [-l LOGINNAME] [-u] [--entry-domain ENTRY_DOMAIN]
-	                   [--entry-name ENTRY_NAME] [--entry-expire ENTRY_EXPIRE]
-	                   [--entry-type ENTRY_TYPE]
+	usage: transip-api [-h] [-l LOGINNAME] [-s] [-a] [-u] [-d]
+	                   [--domain-name DOMAIN_NAME] [--entry-name ENTRY_NAME]
+	                   [--entry-expire ENTRY_EXPIRE] [--entry-type ENTRY_TYPE]
 	                   [--entry-content ENTRY_CONTENT]
 	
 	optional arguments:
 	  -h, --help            show this help message and exit
 	  -l LOGINNAME, --login-name LOGINNAME
 	                        TransIP username
+	  -s, --show-dns-entries
+	                        show all DNS entries for a domain
+	  -a, --add-dns-entry   add an entry in the DNS
 	  -u, --update-dns-entry
-	                        add or update an entry in the DNS
-	  --entry-domain ENTRY_DOMAIN
-	                        domain name to update the entry in
+	                        update an entry in the DNS
+	  -d, --delete-dns-entry
+	                        delete an entry in the DNS
+	  --domain-name DOMAIN_NAME
+	                        domain name to use
 	  --entry-name ENTRY_NAME
 	                        name of the DNS entry
 	  --entry-expire ENTRY_EXPIRE
@@ -66,11 +71,12 @@ update DNS records. When calling it with '-h', it will show all available option
 	  --entry-content ENTRY_CONTENT
 	                        content of the DNS entry
 
+
 Example of adding/updating a record:
 
 .. code-block::
 
-	$ transip-api -l githubuser -u --entry-domain example.com --entry-name testentry --entry-expire 86400 --entry-type A --entry-content 127.0.0.1
+	$ transip-api -l githubuser -u --domain-name example.com --entry-name testentry --entry-expire 86400 --entry-type A --entry-content 127.0.0.1
 	Request finished successfully.
 
 
