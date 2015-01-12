@@ -12,7 +12,7 @@ setup(
     long_description = open('README.rst').read(),
     url = 'http://github.com/goabout/transip-backup',
     download_url = 'http://github.com/goabout/transip-backup/archives/master',
-    packages = ['transip'],
+    packages = ['transip', 'transip.service'],
     include_package_data = True,
     zip_safe = False,
     platforms = ['all'],
@@ -24,6 +24,8 @@ setup(
     },
     install_requires = [
         'requests',
+        'rsa',
+        'suds',
     ],
 )
 
