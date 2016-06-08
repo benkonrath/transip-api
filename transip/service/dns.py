@@ -40,9 +40,7 @@ class DnsEntry(SudsObject):
         :type record_type: basestring
         :type content: basestring
         """
-
-        # Call the parent __init__
-        SudsObject.__init__(self)
+        super(DnsEntry, self).__init__()
 
         # Assign the fields
         self.name = name

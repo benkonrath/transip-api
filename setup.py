@@ -25,7 +25,7 @@ setup(
     install_requires = [
         'requests',
         'rsa',
-        'suds',
+        'suds-jurko',
     ],
 )
 

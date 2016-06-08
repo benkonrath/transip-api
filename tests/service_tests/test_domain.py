@@ -5,6 +5,7 @@ from transip.service import DomainService
 from transip.client import MODE_RO, MODE_RW
 from transip.service.dns import DnsEntry
 
+
 class TestDomainService(unittest.TestCase):
         
     def testConstructor(self):
@@ -13,7 +14,7 @@ class TestDomainService(unittest.TestCase):
         # VERIFY
         self.assertEqual(ds.url, 'https://api.transip.nl/wsdl/?service=DomainService')  
 
-    @patch('suds.client.Client')
+    @patch('transip.client.SudsClient')
     def testGetDomains(self, mock_client):
         # SETUP
         ds = DomainService()
@@ -30,11 +31,11 @@ class TestDomainService(unittest.TestCase):
 
         # VERIFY
         ds.build_cookie.assert_called_with(mode=MODE_RO, method='getDomainNames')
-        ds.update_cookie.assert_called_with({"cookie":"value"})
+        ds.update_cookie.assert_called_with({"cookie": "value"})
         i.service.getDomainNames.assert_called_with()
         self.assertEqual(result, [ 'domain1', 'domain2' ])
 
-    @patch('suds.client.Client')
+    @patch('transip.client.SudsClient')
     def testGetInfo(self, mock_client):
         # SETUP
         ds = DomainService()
@@ -55,7 +56,7 @@ class TestDomainService(unittest.TestCase):
         i.service.getInfo.assert_called_with('example.com')
         self.assertEqual(result, getinfo_result)
 
-    @patch('suds.client.Client')
+    @patch('transip.client.SudsClient')
     def testSetDnsEntries(self, mock_client):
         # SETUP
         ds = DomainService()

@@ -3,11 +3,12 @@
 from transip.client import Client, MODE_RO, MODE_RW
 from transip.service.dns import DnsEntry
 
+
 class DomainService(Client):
     """ Representation of the DomainService API calls for TransIP """
 
     def __init__(self):
-        Client.__init__(self, 'DomainService')
+        super(DomainService, self).__init__('DomainService')
 
     def get_domain_names(self):
         """

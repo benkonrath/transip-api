@@ -3,7 +3,7 @@ nose
 rednose
 mock
 coverage
-suds
+suds-jurko
 rsa
 urimagic
 pylint

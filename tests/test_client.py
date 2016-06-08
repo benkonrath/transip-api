@@ -1,16 +1,14 @@
 # vim: set fileencoding=utf-8 :
 import unittest
-import mock
 from mock import patch, Mock
-
-import suds
 
 import transip
 from transip.client import Client, MODE_RO
 
+
 class TestClient(unittest.TestCase):
 
-    @patch('suds.client.Client')
+    @patch('transip.client.SudsClient')
     def testConstructor(self, mock_client):
         # CALL
         c = Client('TestService')
@@ -19,7 +17,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(c.service_name, 'TestService')
         self.assertEqual(c.url, 'https://api.transip.nl/wsdl/?service=TestService')
 
-    @patch('suds.client.Client')
+    @patch('transip.client.SudsClient')
     def testSignatureIsCorrect(self, mock_client):
         # SETUP
         reference1 = 'ZurqqM1HQTWqYb5IOFYEk%2BGw7a2I%2FknIHEw9lJag%2FnHDp3XfZYj%2F89GTjM52x6spJEJtUnUpSZ02DsVoaJlGl4iZEMk0%2FbWcP5ODRJhASHHsznHWfbK3wY5bk2kDjjsaaaVNlNVIWl52tPpHOrWAaca0uaMVLWuM6IP1tdiWsFI%3D'
@@ -39,7 +37,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(signature1, reference1)
         self.assertEqual(signature2, reference2)
 
-    @patch('suds.client.Client')
+    @patch('transip.client.SudsClient')
     def testBuildSignature(self, mock_client):
         # SETUP
         c = Client('foo')
@@ -51,7 +49,7 @@ class TestClient(unittest.TestCase):
         # VERIFY
         self.assertEqual(message, reference)
 
-    @patch('suds.client.Client')
+    @patch('transip.client.SudsClient')
     def testBuildSignatureWithAdditinalParameters(self, mock_client):
         # SETUP
         c = Client('foo')
@@ -67,7 +65,7 @@ class TestClient(unittest.TestCase):
 
     @patch('uuid.uuid4')
     @patch('time.time')
-    @patch('suds.client.Client')
+    @patch('transip.client.SudsClient')
     def testBuildCookies(self, mock_client, mock_time, mock_uuid):
         # SETUP
         c = Client('DomainService')
@@ -98,7 +96,7 @@ class TestClient(unittest.TestCase):
 
     @patch('uuid.uuid4')
     @patch('time.time')
-    @patch('suds.client.Client')
+    @patch('transip.client.SudsClient')
     def testBuildCookiesWithAdditionalParameters(self, mock_client, mock_time, mock_uuid):
         # SETUP
         c = Client('DomainService')
@@ -128,9 +126,9 @@ class TestClient(unittest.TestCase):
         self.assertEqual(cookie, reference_cookie)
         c._sign.assert_called_with('0=example.com&__method=getInfo&__service=DomainService&__hostname=api.transip.nl&__timestamp=123&__nonce=MOCKED-NONCE')
 
-    @patch('suds.xsd.doctor.ImportDoctor')
-    @patch('suds.xsd.doctor.Import')
-    @patch('suds.client.Client')
+    @patch('transip.client.ImportDoctor')
+    @patch('transip.client.Import')
+    @patch('transip.client.SudsClient')
     def testSoapClientIsInitialised(self, mock_client, mock_import, mock_import_doctor):
         # SETUP
         c = Client('DomainService')
@@ -138,7 +136,7 @@ class TestClient(unittest.TestCase):
         # VERIFY
         self.assertEqual(c.soap_client, mock_client())
 
-    @patch('suds.client.Client')
+    @patch('transip.client.SudsClient')
     def testUpdateCookie(self, mock_client):
         # SETUP
         c = Client('Foo')

@@ -2,21 +2,18 @@
 The Client class, handling direct communication with the API
 """
 
-import rsa
-import uuid
-import time
 import base64
+import time
 import urllib
+import uuid
+from collections import OrderedDict
+
+import rsa
+from suds.client import Client as SudsClient
+from suds.sudsobject import Object as SudsObject
+from suds.xsd.doctor import Import, ImportDoctor
 
 from . import __version__
-
-from collections import OrderedDict
-# from urimagic import percent_encode
-
-import suds
-from suds.xsd.doctor import ImportDoctor, Import
-from suds.sudsobject import Object as SudsObject
-
 
 URI_TEMPLATE = "https://api.transip.nl/wsdl/?service={}"
 
@@ -42,7 +39,6 @@ class Client(object):
         self.service_name = service_name
         self.url = URI_TEMPLATE.format(self.service_name)
         self._init_soap_client()
-
 
     def _sign(self, message):
         """ Uses the decrypted private key to sign the message. """
@@ -118,9 +114,8 @@ class Client(object):
 
         return cookies
 
-
     def _init_soap_client(self):
         """ Initialises the suds soap-client """
         imp = Import('http://schemas.xmlsoap.org/soap/encoding/')
         doc = ImportDoctor(imp)
-        self.soap_client = suds.client.Client(self.url, doctor=doc)
+        self.soap_client = SudsClient(self.url, doctor=doc)
