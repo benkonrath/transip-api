@@ -11,7 +11,7 @@ class TestClient(unittest.TestCase):
     @patch('transip.client.SudsClient')
     def testConstructor(self, mock_client):
         # CALL
-        c = Client('TestService')
+        c = Client('TestService', login='sundayafternoon')
 
         # VERIFY
         self.assertEqual(c.service_name, 'TestService')
@@ -26,8 +26,7 @@ class TestClient(unittest.TestCase):
         reference2 = 'ly2K%2BZjs45hMqTsF%2BxwwHeTvqlHHchvLkRokP16EISaukSkOf714bA0QJA7QxipxPQEHyWNoezD5g3vb2OWv38N8U%2BFLGbcpoT89hi2Zsv7B96QBcew8cxvgwdBM0rM8ixYuw%2FyASsG%2BLvyEzo55eXE3st2aAsG5CP1xwQdLG0I%3D'
         to_sign2   = '__method=getDomainNames&__service=DomainService&__hostname=api.transip.nl&__timestamp=1390236369&__nonce=e0736a8f-fcf4-435f-a7f1-c1d2ccaa'
 
-        c = Client('foo')
-        c.private_file = 'test_key'
+        c = Client('foo', login='sundayafternoon', private_key_file='test_key')
 
         # CALL
         signature1 = c._sign(to_sign1)
@@ -40,7 +39,7 @@ class TestClient(unittest.TestCase):
     @patch('transip.client.SudsClient')
     def testBuildSignature(self, mock_client):
         # SETUP
-        c = Client('foo')
+        c = Client('foo', login='sundayafternoon')
         reference = '__method=getDomainNames&__service=DomainService&__hostname=api.transip.nl&__timestamp=123&__nonce=TEST-NONCE'
 
         # CALL
@@ -52,7 +51,7 @@ class TestClient(unittest.TestCase):
     @patch('transip.client.SudsClient')
     def testBuildSignatureWithAdditinalParameters(self, mock_client):
         # SETUP
-        c = Client('foo')
+        c = Client('foo', login='sundayafternoon')
         reference = '0=foo&1=bar&__method=getDomainNames&__service=DomainService&__hostname=api.transip.nl&__timestamp=123&__nonce=TEST-NONCE'
 
         additional = ['foo', 'bar']
@@ -68,8 +67,7 @@ class TestClient(unittest.TestCase):
     @patch('transip.client.SudsClient')
     def testBuildCookies(self, mock_client, mock_time, mock_uuid):
         # SETUP
-        c = Client('DomainService')
-        c.private_file = 'test_key'
+        c = Client('DomainService', login='sundayafternoon', private_key_file='test_key')
 
         mock_uuid.return_value = 'MOCKED-NONCE'
         mock_time.return_value = 123
@@ -87,7 +85,7 @@ class TestClient(unittest.TestCase):
         }
 
         # CALL
-        cookie = c.build_cookie(mode = 'readonly', method = 'getDomainNames')
+        cookie = c.build_cookie(mode='readonly', method='getDomainNames')
 
         # VERIFY
         self.maxDiff = None
@@ -99,10 +97,8 @@ class TestClient(unittest.TestCase):
     @patch('transip.client.SudsClient')
     def testBuildCookiesWithAdditionalParameters(self, mock_client, mock_time, mock_uuid):
         # SETUP
-        c = Client('DomainService')
-        c.private_file = 'test_key'
+        c = Client('DomainService', login='sundayafternoon', private_key_file='test_key')
 
-        
         c._sign = Mock()
         c._sign.return_value = "MOCKED-SIGNATURE"
 
@@ -131,7 +127,7 @@ class TestClient(unittest.TestCase):
     @patch('transip.client.SudsClient')
     def testSoapClientIsInitialised(self, mock_client, mock_import, mock_import_doctor):
         # SETUP
-        c = Client('DomainService')
+        c = Client('DomainService', login='loginname')
 
         # VERIFY
         self.assertEqual(c.soap_client, mock_client())
@@ -139,11 +135,11 @@ class TestClient(unittest.TestCase):
     @patch('transip.client.SudsClient')
     def testUpdateCookie(self, mock_client):
         # SETUP
-        c = Client('Foo')
+        c = Client('Foo', login='sundayafternoon')
 
         cookie = {
-            'foo' : 'bar',
-            'baz' : 'qux'
+            'foo': 'bar',
+            'baz': 'qux'
         } 
 
         # CALL

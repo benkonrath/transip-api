@@ -89,8 +89,7 @@ def main():
         print('Please provide your TransIP username.')
         exit(1)
 
-    domain_service = DomainService()
-    domain_service.login = args.loginname
+    domain_service = DomainService(args.loginname)
 
     if args.add_dns_entry or args.update_dns_entry or args.delete_dns_entry:
         if args.domain_name and args.entry_name and args.entry_expire and args.entry_type and args.entry_content:

@@ -15,10 +15,11 @@ from suds.xsd.doctor import Import, ImportDoctor
 
 from . import __version__
 
-URI_TEMPLATE = "https://api.transip.nl/wsdl/?service={}"
+URI_TEMPLATE = 'https://{}/wsdl/?service={}'
 
 MODE_RO = 'readonly'
 MODE_RW = 'readwrite'
+
 
 class Client(object):
     """
@@ -27,23 +28,20 @@ class Client(object):
     WSDL for specific parts of the TransIP API.
     """
 
-    login = 'sundayafternoon'
-    endpoint = 'api.transip.nl'
-    private_file = 'decrypted_key'
-    service_name = None
-    soap_client = None
-    url = None
-
-    def __init__(self, service_name):
-        """ Initialiser. """
+    def __init__(self, service_name, login, private_key_file='decrypted_key', endpoint='api.transip.nl'):
         self.service_name = service_name
-        self.url = URI_TEMPLATE.format(self.service_name)
-        self._init_soap_client()
+        self.login = login
+        self.private_key_file = private_key_file
+        self.endpoint = endpoint
+        self.url = URI_TEMPLATE.format(endpoint, service_name)
+
+        imp = Import('http://schemas.xmlsoap.org/soap/encoding/')
+        doc = ImportDoctor(imp)
+        self.soap_client = SudsClient(self.url, doctor=doc)
 
     def _sign(self, message):
         """ Uses the decrypted private key to sign the message. """
-        signature = None
-        with open(self.private_file) as private_key:
+        with open(self.private_key_file) as private_key:
             keydata = private_key.read()
             privkey = rsa.PrivateKey.load_pkcs1(keydata)
             signature = rsa.sign(message, privkey, 'SHA-512')
@@ -92,7 +90,7 @@ class Client(object):
         """
         Build a cookie for the request.
 
-        Keword arguments:
+        Keyword arguments:
         method -- the method to be called on the service.
         mode -- Read-only (MODE_RO) or read-write (MODE_RW)
         """
@@ -113,9 +111,3 @@ class Client(object):
         }
 
         return cookies
-
-    def _init_soap_client(self):
-        """ Initialises the suds soap-client """
-        imp = Import('http://schemas.xmlsoap.org/soap/encoding/')
-        doc = ImportDoctor(imp)
-        self.soap_client = SudsClient(self.url, doctor=doc)

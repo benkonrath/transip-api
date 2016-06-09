@@ -10,14 +10,14 @@ class TestDomainService(unittest.TestCase):
         
     def testConstructor(self):
         # CALL
-        ds = DomainService()
+        ds = DomainService(login='sundayafternoon')
         # VERIFY
         self.assertEqual(ds.url, 'https://api.transip.nl/wsdl/?service=DomainService')  
 
     @patch('transip.client.SudsClient')
     def testGetDomains(self, mock_client):
         # SETUP
-        ds = DomainService()
+        ds = DomainService('sundayafternoon')
         ds.build_cookie = Mock(return_value={"cookie":"value"})
         ds.update_cookie = Mock()
 
@@ -38,7 +38,7 @@ class TestDomainService(unittest.TestCase):
     @patch('transip.client.SudsClient')
     def testGetInfo(self, mock_client):
         # SETUP
-        ds = DomainService()
+        ds = DomainService(login='sundayafternoon')
         ds.build_cookie = Mock(return_value={"cookie":"value"})
         ds.update_cookie = Mock()
 
@@ -59,7 +59,7 @@ class TestDomainService(unittest.TestCase):
     @patch('transip.client.SudsClient')
     def testSetDnsEntries(self, mock_client):
         # SETUP
-        ds = DomainService()
+        ds = DomainService('sundayafternoon')
         ds.build_cookie = Mock(return_value={"cookie": "value"})
         ds.update_cookie = Mock()
 

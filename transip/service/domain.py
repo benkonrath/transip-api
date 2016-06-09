@@ -7,8 +7,8 @@ from transip.service.dns import DnsEntry
 class DomainService(Client):
     """ Representation of the DomainService API calls for TransIP """
 
-    def __init__(self):
-        super(DomainService, self).__init__('DomainService')
+    def __init__(self, *args, **kwargs):
+        super(DomainService, self).__init__('DomainService', *args, **kwargs)
 
     def get_domain_names(self):
         """
