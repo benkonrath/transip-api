@@ -4,13 +4,13 @@ The CLI parser for the API
 from __future__ import print_function
 
 import argparse
+import logging
+
 from suds import WebFault
 
 from transip.service.dns import DnsEntry
 from transip.service.domain import DomainService
-# from pprint import pprint
 
-import logging
 logging.basicConfig(level=logging.INFO)
 logging.getLogger('suds.client').setLevel(logging.INFO)
 
