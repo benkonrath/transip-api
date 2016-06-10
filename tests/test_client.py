@@ -49,12 +49,26 @@ class TestClient(unittest.TestCase):
         self.assertEqual(message, reference)
 
     @patch('transip.client.SudsClient')
-    def testBuildSignatureWithAdditinalParameters(self, mock_client):
+    def testBuildSignatureWithAdditionalParameters(self, mock_client):
         # SETUP
         c = Client('foo', login='sundayafternoon')
         reference = '0=foo&1=bar&__method=getDomainNames&__service=DomainService&__hostname=api.transip.nl&__timestamp=123&__nonce=TEST-NONCE'
 
         additional = ['foo', 'bar']
+
+        # CALL
+        message = c._build_signature_message('DomainService', 'getDomainNames', 123, 'TEST-NONCE', additional)
+
+        # VERIFY
+        self.assertEqual(message, reference)
+
+    @patch('transip.client.SudsClient')
+    def testBuildSignatureParametersSpecialCharacters(self, mock_client):
+        # SETUP
+        c = Client('foo', login='sundayafternoon')
+        reference = '0=foo%20bar&1=~all&2=%2A.foo&__method=getDomainNames&__service=DomainService&__hostname=api.transip.nl&__timestamp=123&__nonce=TEST-NONCE'
+
+        additional = ['foo bar', '~all', '*.foo']
 
         # CALL
         message = c._build_signature_message('DomainService', 'getDomainNames', 123, 'TEST-NONCE', additional)

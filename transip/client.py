@@ -75,7 +75,11 @@ class Client(object):
         sign['__timestamp'] = timestamp
         sign['__nonce'] = nonce
 
-        return urllib.urlencode(sign).replace('%5B', '[').replace('%5D', ']').replace('+', '%20')
+        return urllib.urlencode(sign) \
+            .replace('%5B', '[') \
+            .replace('%5D', ']') \
+            .replace('+', '%20') \
+            .replace('%7E', '~')  # Comply with RFC3989. This replacement is also in TransIP's sample PHP library.
 
     def update_cookie(self, cookies):
         """ Updates the cookie for the upcoming call to the API. """
