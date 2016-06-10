@@ -47,3 +47,7 @@ class DnsEntry(SudsObject):
         self.expire = expire
         self.type = record_type
         self.content = content
+
+    def __eq__(self, other):
+        # expire is intentionally not used for equality.
+        return self.name == other.name and self.type == other.type and self.content == other.content
