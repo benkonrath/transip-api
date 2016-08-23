@@ -1,9 +1,13 @@
 import unittest
-from mock import patch, Mock
 
 from transip.service import DomainService
 from transip.client import MODE_RO, MODE_RW
 from transip.service.dns import DnsEntry
+
+try:
+    from unittest.mock import Mock, patch
+except ImportError:
+    from mock import patch, Mock
 
 
 class TestDomainService(unittest.TestCase):
