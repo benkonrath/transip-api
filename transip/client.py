@@ -4,7 +4,6 @@ The Client class, handling direct communication with the API
 
 import base64
 import time
-import urllib
 import uuid
 from collections import OrderedDict
 
@@ -14,6 +13,12 @@ from suds.sudsobject import Object as SudsObject
 from suds.xsd.doctor import Import, ImportDoctor
 
 from . import __version__
+
+try:
+    from urllib.parse import urlencode, quote_plus
+except ImportError:
+    from urllib import urlencode, quote_plus
+
 
 URI_TEMPLATE = 'https://{}/wsdl/?service={}'
 
@@ -44,9 +49,9 @@ class Client(object):
         with open(self.private_key_file) as private_key:
             keydata = private_key.read()
             privkey = rsa.PrivateKey.load_pkcs1(keydata)
-            signature = rsa.sign(message, privkey, 'SHA-512')
+            signature = rsa.sign(message.encode('utf-8'), privkey, 'SHA-512')
             signature = base64.b64encode(signature)
-            signature = urllib.quote_plus(signature)
+            signature = quote_plus(signature)
 
         return signature
 
@@ -75,7 +80,7 @@ class Client(object):
         sign['__timestamp'] = timestamp
         sign['__nonce'] = nonce
 
-        return urllib.urlencode(sign) \
+        return urlencode(sign) \
             .replace('%5B', '[') \
             .replace('%5D', ']') \
             .replace('+', '%20') \
