@@ -2,6 +2,13 @@
 TransIP API
 ===========
 
+Not maintaining this repository anymore
+=======================================
+
+Please feel free to take what you need from the project. If you want to be linked 
+to if someone finds this repository; let me know.
+
+
 .. image:: https://travis-ci.org/mhogerheijde/transip-api.png?branch=develop
    :align: right
    :target: https://travis-ci.org/mhogerheijde/transip-api
