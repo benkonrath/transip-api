@@ -81,7 +81,7 @@ class Client(object):
         sign['__timestamp'] = timestamp
         sign['__nonce'] = nonce
 
-        return urllib.urlencode(sign).replace('%5B', '[').replace('%5D', ']')
+        return urllib.urlencode(sign).replace('%5B', '[').replace('%5D', ']').replace('+', '%20')
 
     def update_cookie(self, cookies):
         """ Updates the cookie for the upcoming call to the API. """
