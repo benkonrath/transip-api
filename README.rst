@@ -19,8 +19,7 @@ Prerequisite
 * Add your IP.
 * Generate key-pairs
 	+ Copy-paste the key into a file.
-	+ Encrypt the key ``$ openssl enc -aes-256-cbc -in new_key -out encrypted_key``
-	+ Decrypt it again (for now, only unencrypted RSA is supported) ``$ openssl rsa -in encrypted_key -out decrypted_key``
+	+ Reformat the key ``$ openssl rsa -in input.key -out decrypted_key``
 	+ put decrypted key next to this readme
 
 Setup
