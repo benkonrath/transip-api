@@ -25,6 +25,8 @@ setup(
     version=find_version('transip', '__init__.py'),
     author='Go About B.V.',
     author_email='tech@goabout.com',
+    maintainer='Ben Konrath',
+    maintainer_email='ben@bagu.org',
     license='MIT',
     description='TransIP API Connector',
     long_description=read('README.rst'),
