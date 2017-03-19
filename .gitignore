@@ -1,5 +1,7 @@
-# Python virtualenv
+# Python
+/build
 /bin
+/dist
 /include
 /lib
 /local
@@ -17,3 +19,6 @@
 
 # PHP Examples
 /transipAPI
+
+# Editors
+/.idea
