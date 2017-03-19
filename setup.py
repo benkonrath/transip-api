@@ -1,15 +1,33 @@
+#!/usr/bin/env python
+import os
+import re
+import codecs
 from setuptools import setup
 
-import transip
+
+def read(*parts):
+    filename = os.path.join(os.path.dirname(__file__), *parts)
+    with codecs.open(filename, encoding='utf-8') as fp:
+        return fp.read()
+
+
+def find_version(*file_paths):
+    version_file = read(*file_paths)
+    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
+                              version_file, re.M)
+    if version_match:
+        return version_match.group(1)
+    raise RuntimeError("Unable to find version string.")
+
 
 setup(
-    name=transip.__name__,
-    version=transip.__version__,
-    author=transip.__author__,
-    author_email=transip.__email__,
-    license=transip.__license__,
-    description=transip.__doc__.splitlines()[0],
-    long_description=open('README.rst').read(),
+    name='transip',
+    version=find_version('transip', '__init__.py'),
+    author='Go About B.V.',
+    author_email='tech@goabout.com',
+    license='MIT',
+    description='TransIP API Connector',
+    long_description=read('README.rst'),
     url='https://github.com/benkonrath/transip-api',
     packages=['transip', 'transip.service'],
     include_package_data=True,
