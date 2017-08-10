@@ -2,9 +2,11 @@
 The Client class, handling direct communication with the API
 """
 
+from __future__ import print_function
 import base64
 import time
 import uuid
+import os
 from collections import OrderedDict
 
 import rsa
@@ -46,14 +48,18 @@ class Client(object):
 
     def _sign(self, message):
         """ Uses the decrypted private key to sign the message. """
-        with open(self.private_key_file) as private_key:
-            keydata = private_key.read()
-            privkey = rsa.PrivateKey.load_pkcs1(keydata)
-            signature = rsa.sign(message.encode('utf-8'), privkey, 'SHA-512')
-            signature = base64.b64encode(signature)
-            signature = quote_plus(signature)
+        if os.path.exists(self.private_key_file):
+            with open(self.private_key_file) as private_key:
+                keydata = private_key.read()
+                privkey = rsa.PrivateKey.load_pkcs1(keydata)
+                signature = rsa.sign(message.encode('utf-8'), privkey, 'SHA-512')
+                signature = base64.b64encode(signature)
+                signature = quote_plus(signature)
 
-        return signature
+            return signature
+        else:
+            print('The private key does not exist.')
+            exit(1)
 
     def _build_signature_message(self, service_name, method_name,
                                  timestamp, nonce, additional=None):

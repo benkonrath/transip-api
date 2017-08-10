@@ -20,5 +20,9 @@
 # PHP Examples
 /transipAPI
 
+# Generated documentation
+/.*html
+
 # Editors
 /.idea
+/*.iml

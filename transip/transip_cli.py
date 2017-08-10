@@ -83,13 +83,17 @@ def main():
     parser.add_argument('--entry-expire', help='expire time of the DNS entry', dest='entry_expire', type=int)
     parser.add_argument('--entry-type', help='type of the DNS entry', dest='entry_type')
     parser.add_argument('--entry-content', help='content of the DNS entry', dest='entry_content')
+    parser.add_argument('--api-key', help='TransIP private key', dest='api_key_file')
     args = parser.parse_args()
 
     if not args.loginname:
         print('Please provide your TransIP username.')
         exit(1)
 
-    domain_service = DomainService(args.loginname)
+    if not args.api_key_file:
+        args.api_key_file = 'decrypted_key'
+
+    domain_service = DomainService(args.loginname, args.api_key_file)
 
     if args.add_dns_entry or args.update_dns_entry or args.delete_dns_entry:
         if args.domain_name and args.entry_name and args.entry_expire and args.entry_type and args.entry_content:

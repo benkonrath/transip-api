@@ -46,7 +46,7 @@ update DNS records. When calling it with '-h', it will show all available option
 	usage: transip-api [-h] [-l LOGINNAME] [-s] [-a] [-u] [-d]
 	                   [--domain-name DOMAIN_NAME] [--entry-name ENTRY_NAME]
 	                   [--entry-expire ENTRY_EXPIRE] [--entry-type ENTRY_TYPE]
-	                   [--entry-content ENTRY_CONTENT]
+	                   [--entry-content ENTRY_CONTENT] [--api-key PRIVATE_KEY_FILE]
 	
 	optional arguments:
 	  -h, --help            show this help message and exit
@@ -69,13 +69,15 @@ update DNS records. When calling it with '-h', it will show all available option
 	                        type of the DNS entry
 	  --entry-content ENTRY_CONTENT
 	                        content of the DNS entry
+          --api-key PRIVATE_KEY_FILE
+                                TransIP private key
 
 
 Example of adding/updating a record:
 
 .. code-block::
 
-	$ transip-api -l githubuser -u --domain-name example.com --entry-name testentry --entry-expire 86400 --entry-type A --entry-content 127.0.0.1
+	$ transip-api -l githubuser -u --api-key privatekey --domain-name example.com --entry-name testentry --entry-expire 86400 --entry-type A --entry-content 127.0.0.1
 	Request finished successfully.
 
 

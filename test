@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-find -name \*.pyc -delete
+find . -name \*.pyc -delete
 nosetests --rednose --with-coverage --cover-package=transip
 echo "------------------------------------------------------"
 pylint --rcfile=.pylintrc transip
