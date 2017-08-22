@@ -102,8 +102,9 @@ def main():
     domain_service = DomainService(args.loginname, args.api_key_file)
 
     if args.add_dns_entry or args.update_dns_entry or args.delete_dns_entry:
-        if len([args.add_dns_entry, args.update_dns_entry, args.delete_dns_entry].count(True)) > 1:
-            print('Please use only one of the options: -a/--add-dns-entry, -u/--update-dns-entry, -d/--delete-dns-entry')
+        if [args.add_dns_entry, args.update_dns_entry, args.delete_dns_entry].count(True) > 1:
+            print('Please use only one of the options: '
+                  '-a/--add-dns-entry, -u/--update-dns-entry, -d/--delete-dns-entry')
             exit(1)
 
         if args.domain_name and args.entry_name and args.entry_expire and args.entry_type and args.entry_content:
