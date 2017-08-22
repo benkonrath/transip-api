@@ -45,20 +45,17 @@ def update_dns(domain_service, args):
 
     number_of_entries = len(dns_entries)
     for entry in dns_entries:
-        if args.add_dns_entry:
-            if entry.name == args.entry_name and entry.type == args.entry_type and \
-                    entry.content == args.entry_content:
-                print('The DNS entry already exists.')
-                exit(1)
+        if args.add_dns_entry and entry.name == args.entry_name and entry.type == args.entry_type and \
+                entry.content == args.entry_content:
+            print('The DNS entry already exists.')
+            exit(1)
 
-        elif args.update_dns_entry:
-            if entry.name == args.entry_name and entry.type == args.entry_type:
-                dns_entries.remove(entry)
+        elif args.update_dns_entry and entry.name == args.entry_name and entry.type == args.entry_type:
+            dns_entries.remove(entry)
 
-        elif args.delete_dns_entry:
-            if entry.name == args.entry_name and entry.type == args.entry_type and \
-                    entry.expire == args.entry_expire and entry.content == args.entry_content:
-                dns_entries.remove(entry)
+        elif args.delete_dns_entry and entry.name == args.entry_name and entry.type == args.entry_type and \
+                entry.expire == args.entry_expire and entry.content == args.entry_content:
+            dns_entries.remove(entry)
 
     if args.update_dns_entry or args.delete_dns_entry:
         if number_of_entries == len(dns_entries):
