@@ -42,23 +42,32 @@ def update_dns(domain_service, args):
     except WebFault as err:
         print(err)
         exit(1)
-    amount_of_entries = len(dns_entries)
+
+    number_of_entries = len(dns_entries)
     for entry in dns_entries:
-        if args.add_dns_entry and entry.name == args.entry_name and entry.type == args.entry_type and \
-                        entry.content == args.entry_content:
-            print('The DNS entry already exists.')
-            exit(1)
-        if args.update_dns_entry and entry.name == args.entry_name and entry.type == args.entry_type:
-            dns_entries.remove(entry)
-        if args.delete_dns_entry and entry.name == args.entry_name and entry.type == args.entry_type and \
-                        entry.expire == args.entry_expire and entry.content == args.entry_content:
-            dns_entries.remove(entry)
+        if args.add_dns_entry:
+            if entry.name == args.entry_name and entry.type == args.entry_type and \
+                    entry.content == args.entry_content:
+                print('The DNS entry already exists.')
+                exit(1)
+
+        elif args.update_dns_entry:
+            if entry.name == args.entry_name and entry.type == args.entry_type:
+                dns_entries.remove(entry)
+
+        elif args.delete_dns_entry:
+            if entry.name == args.entry_name and entry.type == args.entry_type and \
+                    entry.expire == args.entry_expire and entry.content == args.entry_content:
+                dns_entries.remove(entry)
+
     if args.update_dns_entry or args.delete_dns_entry:
-        if amount_of_entries == len(dns_entries):
+        if number_of_entries == len(dns_entries):
             print('The DNS entry was not found.')
             exit(1)
+
     if args.add_dns_entry or args.update_dns_entry:
         dns_entries.append(DnsEntry(args.entry_name, args.entry_expire, args.entry_type, args.entry_content))
+
     try:
         result = domain_service.set_dns_entries(args.domain_name, dns_entries)
     except WebFault as err:
@@ -96,6 +105,10 @@ def main():
     domain_service = DomainService(args.loginname, args.api_key_file)
 
     if args.add_dns_entry or args.update_dns_entry or args.delete_dns_entry:
+        if len([args.add_dns_entry, args.update_dns_entry, args.delete_dns_entry].count(True)) > 1:
+            print('Please use only one of the options: -a/--add-dns-entry, -u/--update-dns-entry, -d/--delete-dns-entry')
+            exit(1)
+
         if args.domain_name and args.entry_name and args.entry_expire and args.entry_type and args.entry_content:
             update_dns(domain_service, args)
         else:
