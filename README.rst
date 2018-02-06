@@ -91,3 +91,22 @@ not filled in yet.
 .. _TransIP: https://www.transip.nl/cp/
 .. _`TransIP API`: https://www.transip.eu/transip/api/
 
+FAQ
+===
+
+Question:
+
+    When using the library I get SSL errors such as:
+
+    .. code-block::
+    
+        urllib2.URLError: <urlopen error [Errno 1] _ssl.c:510: error:14077458:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 unrecognized name>
+   
+Answer:
+
+    The `suds` library has fairly limited SSL support which is dependent on the Python version, to work around this the `suds_requests` library can be used which replaces `urllib2` with the `requests` library. Additionally the `requests` library automatically pools connections which makes the library slightly faster to use.
+   To install:
+   
+    .. code-block::
+    
+       pip install suds_requests

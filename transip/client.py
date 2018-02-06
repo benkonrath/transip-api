@@ -21,6 +21,11 @@ try:
 except ImportError:
     from urllib import urlencode, quote_plus
 
+try:
+    import suds_requests
+except ImportError:
+    suds_requests = None
+
 
 URI_TEMPLATE = 'https://{}/wsdl/?service={}'
 
@@ -44,7 +49,12 @@ class Client(object):
 
         imp = Import('http://schemas.xmlsoap.org/soap/encoding/')
         doc = ImportDoctor(imp)
-        self.soap_client = SudsClient(self.url, doctor=doc)
+
+        suds_kwargs = dict()
+        if suds_requests:
+            suds_kwargs['transport'] = suds_requests.RequestsTransport()
+
+        self.soap_client = SudsClient(self.url, doctor=doc, **suds_kwargs)
 
     def _sign(self, message):
         """ Uses the decrypted private key to sign the message. """
