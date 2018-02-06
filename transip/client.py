@@ -59,7 +59,7 @@ class Client(object):
             return signature
         else:
             print('The private key does not exist.')
-            exit(1)
+            raise RuntimeError()
 
     def _build_signature_message(self, service_name, method_name,
                                  timestamp, nonce, additional=None):
