@@ -1,6 +1,6 @@
 import unittest
 
-from transip.service.dns import DnsEntry
+from transip.service.objects import DnsEntry
 
 
 class TestDnsEntry(unittest.TestCase):

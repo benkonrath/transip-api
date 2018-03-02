@@ -1,7 +1,8 @@
 import unittest
 
 from transip.client import MODE_RO, MODE_RW
-from transip.service.webhosting import WebhostingService, WebHost, MailBox, MailForward
+from transip.service.objects import WebHost, MailBox, MailForward
+from transip.service.webhosting import WebhostingService
 
 try:
     from unittest.mock import Mock, patch
@@ -124,4 +125,13 @@ class TestWebhostingService(unittest.TestCase):
             result='mock',
             parameters=('example.com',),
             mode=MODE_RO
+        )
+
+    def test_set_mailbox_password(self):
+        self._generic_test(
+            soap_method='setMailBoxPassword',
+            method='set_mailbox_password',
+            result='mock',
+            parameters=('example.com', 'mailbox', 'password'),
+            mode=MODE_RW
         )

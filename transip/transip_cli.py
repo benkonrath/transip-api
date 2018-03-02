@@ -8,8 +8,8 @@ import logging
 
 from suds import WebFault
 
-from transip.service.dns import DnsEntry
 from transip.service.domain import DomainService
+from transip.service.objects import DnsEntry
 
 logging.basicConfig(level=logging.INFO)
 logging.getLogger('suds.client').setLevel(logging.INFO)
