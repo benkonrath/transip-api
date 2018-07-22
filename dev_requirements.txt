@@ -5,5 +5,5 @@ mock
 coverage
 suds-jurko
 rsa
-pylint
+pylint==1.9.2
 -e .
