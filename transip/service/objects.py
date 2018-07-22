@@ -49,6 +49,10 @@ class DnsEntry(SudsObject):
         self.content = content
 
     def __eq__(self, other):
+        # other can be a list. This check ensures that other is a DnsEntry.
+        if not hasattr(self, 'name') or not hasattr(self, 'type') or not hasattr(self, 'content'):
+            return False
+
         # expire is intentionally not used for equality.
         return self.name == other.name and self.type == other.type and self.content == other.content
 
