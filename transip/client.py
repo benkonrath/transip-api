@@ -27,6 +27,14 @@ try:
 except ImportError:
     suds_requests = None
 
+try:
+    from Crypto.Hash import SHA512
+    from Crypto.Signature import PKCS1_v1_5
+    from Crypto.PublicKey import RSA
+    HAS_PYCRYPTO = True
+except ImportError:
+    HAS_PYCRYPTO = False
+
 URI_TEMPLATE = 'https://{}/wsdl/?service={}'
 
 MODE_RO = 'readonly'
@@ -76,11 +84,20 @@ class Client(object):
         """ Uses the decrypted private key to sign the message. """
         if os.path.exists(self.private_key_file):
             with open(self.private_key_file) as private_key:
-
                 keydata = private_key.read()
-                privkey = rsa.PrivateKey.load_pkcs1(keydata)
 
-                signature = rsa.sign(message.encode('utf-8'), privkey, 'SHA-512')
+                if HAS_PYCRYPTO:
+                    rsa_key = RSA.importKey(keydata)
+                    rsa_ = PKCS1_v1_5.new(rsa_key)
+                    sha512_hash_ = SHA512.new()
+                    sha512_hash_.update(message.encode('utf-8'))
+                    signature = rsa_.sign(sha512_hash_)
+                else:
+                    privkey = rsa.PrivateKey.load_pkcs1(keydata)
+                    signature = rsa.sign(
+                        message.encode('utf-8'), privkey, 'SHA-512'
+                    )
+
                 signature = base64.b64encode(signature)
                 signature = quote_plus(signature)
 
