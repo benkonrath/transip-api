@@ -45,13 +45,26 @@ class VpsService(Client):
         self.update_cookie(cookie)
         return self.soap_client.service.getCancellableAddonsForVps(vps_name)
 
-    # This function gives a signature error.
-    # def order_vps(self, product_name, addons, operating_system_name, hostname):
-    #     """ Order a VPS with optional Addons """
-    #     cookie = self.build_cookie(mode=MODE_RW, method='orderVps', \
-    #         parameters=[product_name, addons, operating_system_name, hostname])
-    #     self.update_cookie(cookie)
-    #     return self.soap_client.service.orderVps(product_name, addons, operating_system_name, hostname)
+    def order_vps(self, product_name, addons, operating_system_name, hostname):
+        """ Order a VPS with optional Addons """
+        if not addons:
+            # An empty list of Addons gives a signature error due to the Addons
+            # not being added to the OrderedDict in
+            # transip.client.Client._build_signature_message.
+            addons = None
+        else:
+            # A list of Addons (or an empty list) gives a signature error due
+            # to the Addons not being added to the OrderedDict in
+            # transip.client.Client._build_signature_message.
+            # The _build_signature_message method only adds list items if
+            # they are an instance of SudsObject.
+            raise NotImplementedError('Addons paramenter not implemented. Use '
+                                      'the order_addon method instead.')
+
+        cookie = self.build_cookie(mode=MODE_RW, method='orderVps', \
+            parameters=[product_name, addons, operating_system_name, hostname])
+        self.update_cookie(cookie)
+        return self.soap_client.service.orderVps(product_name, addons, operating_system_name, hostname)
 
     def clone_vps(self, vps_name):
         """ Clone a VPS """
