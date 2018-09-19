@@ -16,11 +16,11 @@ Prerequisite
 
 * Make sure you have an account at TransIP_
 * *Enable* the API (https://www.transip.nl/cp/mijn-account/#api)
-* Add your IP.
-* Generate key-pairs
-	+ Copy-paste the key into a file.
-	+ Reformat the key ``$ openssl rsa -in input.key -out decrypted_key``
-	+ put decrypted key next to this readme
+* Whitelist your IP.
+* Generate a new key-pair.
+	+ Copy-paste the private key into a file.
+	+ Either reformat the key to PKCS#1 format using ``$ openssl rsa -in input.key -out decrypted_key`` or install PyCrypto using ``$ pip install pycrypto``.
+	+ Put the private key in a file called ``decrypted_key`` beside this ``README.rst`` file.
 
 Setup
 -----
@@ -41,13 +41,13 @@ update DNS records. When calling it with '-h', it will show all available option
 
 	$ transip-api
 	[example.com, example.org, example.net]
-	
+
 	$ transip-api -h
 	usage: transip-api [-h] [-l LOGINNAME] [-s] [-a] [-u] [-d]
 	                   [--domain-name DOMAIN_NAME] [--entry-name ENTRY_NAME]
 	                   [--entry-expire ENTRY_EXPIRE] [--entry-type ENTRY_TYPE]
 	                   [--entry-content ENTRY_CONTENT] [--api-key PRIVATE_KEY_FILE]
-	
+
 	optional arguments:
 	  -h, --help            show this help message and exit
 	  -l LOGINNAME, --login-name LOGINNAME
@@ -99,14 +99,14 @@ Question:
     When using the library I get SSL errors such as:
 
     .. code-block::
-    
+
         urllib2.URLError: <urlopen error [Errno 1] _ssl.c:510: error:14077458:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 unrecognized name>
-   
+
 Answer:
 
     The `suds` library has fairly limited SSL support which is dependent on the Python version, to work around this the `suds_requests` library can be used which replaces `urllib2` with the `requests` library. Additionally the `requests` library automatically pools connections which makes the library slightly faster to use.
    To install:
-   
+
     .. code-block::
-    
+
        pip install suds_requests
