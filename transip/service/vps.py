@@ -23,6 +23,7 @@ class VpsService(Client):
 
     def get_available_availability_zones(self):
         """ Get available availability zones """
+        # pylint: disable=invalid-name
         cookie = self.build_cookie(mode=MODE_RO, method='getAvailableAvailabilityZones')
         self.update_cookie(cookie)
         return self.soap_client.service.getAvailableAvailabilityZones()
@@ -72,11 +73,40 @@ class VpsService(Client):
         self.update_cookie(cookie)
         return self.soap_client.service.orderVps(product_name, addons, operating_system_name, hostname)
 
+    def order_vps_in_availability_zone(self, product_name, addons, operating_system_name, hostname, availability_zone):
+        """ Order a VPS with optional Addons in a availability zone """
+        if not addons:
+            # An empty list of Addons gives a signature error due to the Addons
+            # not being added to the OrderedDict in
+            # transip.client.Client._build_signature_message.
+            addons = None
+        else:
+            # A list of Addons (or an empty list) gives a signature error due
+            # to the Addons not being added to the OrderedDict in
+            # transip.client.Client._build_signature_message.
+            # The _build_signature_message method only adds list items if
+            # they are an instance of SudsObject.
+            raise NotImplementedError('Addons paramenter not implemented. Use '
+                                      'the order_addon method instead.')
+
+        cookie = self.build_cookie(mode=MODE_RW, method='orderVpsInAvailabilityZone', \
+            parameters=[product_name, addons, operating_system_name, hostname, availability_zone])
+        self.update_cookie(cookie)
+        return self.soap_client.service.orderVpsInAvailabilityZone(product_name, addons, \
+            operating_system_name, hostname, availability_zone)
+
     def clone_vps(self, vps_name):
         """ Clone a VPS """
         cookie = self.build_cookie(mode=MODE_RW, method='cloneVps', parameters=[vps_name])
         self.update_cookie(cookie)
         return self.soap_client.service.cloneVps(vps_name)
+
+    def clone_vps_to_availability_zone(self, vps_name, availability_zone):
+        """ Clone a VPS to a availability zone """
+        cookie = self.build_cookie(mode=MODE_RW, method='cloneVpsToAvailabilityZone', \
+            parameters=[vps_name, availability_zone])
+        self.update_cookie(cookie)
+        return self.soap_client.service.cloneVpsToAvailabilityZone(vps_name, availability_zone)
 
     def order_addon(self, vps_name, addons):
         """ Order addons to a VPS """
