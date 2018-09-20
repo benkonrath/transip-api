@@ -21,6 +21,12 @@ class VpsService(Client):
         self.update_cookie(cookie)
         return self.soap_client.service.getAvailableAddons()
 
+    def get_available_availability_zones(self):
+        """ Get available availability zones """
+        cookie = self.build_cookie(mode=MODE_RO, method='getAvailableAvailabilityZones')
+        self.update_cookie(cookie)
+        return self.soap_client.service.getAvailableAvailabilityZones()
+
     def get_active_addons_for_vps(self, vps_name):
         """ Get all the Active Addons for Vps """
         cookie = self.build_cookie(mode=MODE_RO, method='getActiveAddonsForVps', parameters=[vps_name])
