@@ -2,9 +2,14 @@
 TransIP API
 ===========
 
-.. image:: https://travis-ci.org/benkonrath/transip-api.png?branch=develop
-   :align: right
+|Build Status| |Docs Status|
+
+.. |Build Status| image:: https://travis-ci.org/benkonrath/transip-api.svg?branch=master
    :target: https://travis-ci.org/benkonrath/transip-api
+   :alt: Build Status
+.. |Docs Status| image:: https://readthedocs.org/projects/transip-api/badge/?version=latest
+   :target: https://transip-api.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
 
 This library aims to implement the `TransIP API`_ in Python.
 
@@ -84,8 +89,7 @@ Example of adding/updating a record:
 Documentation
 =============
 
-Further documentation can be found in the ``docs`` directory, although this is
-not filled in yet.
+Further documentation can be found in the ``docs`` directory, or on https://transip-api.readthedocs.io/en/latest/.
 
 .. _virtualenv: http://virtualenv.org/
 .. _TransIP: https://www.transip.nl/cp/

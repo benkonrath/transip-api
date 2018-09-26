@@ -3,6 +3,7 @@ nose
 rednose
 mock
 coverage
+sphinx
 suds-jurko
 rsa
 pylint==1.9.2
