@@ -28,12 +28,13 @@ except ImportError:
     suds_requests = None
 
 try:
-    from Crypto.Hash import SHA512
-    from Crypto.Signature import PKCS1_v1_5
-    from Crypto.PublicKey import RSA
-    HAS_PYCRYPTO = True
+    from cryptography.hazmat.backends import default_backend
+    from cryptography.hazmat.primitives import serialization
+    from cryptography.hazmat.primitives import hashes
+    from cryptography.hazmat.primitives.asymmetric import padding
+    HAS_CRYPTOGRAPHY = True
 except ImportError:
-    HAS_PYCRYPTO = False
+    HAS_CRYPTOGRAPHY = False
 
 URI_TEMPLATE = 'https://{}/wsdl/?service={}'
 
@@ -86,12 +87,17 @@ class Client(object):
             with open(self.private_key_file) as private_key:
                 keydata = private_key.read()
 
-                if HAS_PYCRYPTO:
-                    rsa_key = RSA.importKey(keydata)
-                    rsa_ = PKCS1_v1_5.new(rsa_key)
-                    sha512_hash_ = SHA512.new()
-                    sha512_hash_.update(message.encode('utf-8'))
-                    signature = rsa_.sign(sha512_hash_)
+                if HAS_CRYPTOGRAPHY:
+                    private_key = serialization.load_pem_private_key(
+                        keydata,
+                        password=None,
+                        backend=default_backend()
+                    )
+                    signature = private_key.sign(
+                        message,
+                        padding.PKCS1v15(),
+                        hashes.SHA512(),
+                    )
                 else:
                     privkey = rsa.PrivateKey.load_pkcs1(keydata)
                     signature = rsa.sign(

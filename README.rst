@@ -24,7 +24,7 @@ Prerequisite
 * Whitelist your IP.
 * Generate a new key-pair.
 	+ Copy-paste the private key into a file.
-	+ Either reformat the key to PKCS#1 format using ``$ openssl rsa -in input.key -out decrypted_key`` or install PyCrypto using ``$ pip install pycrypto``.
+	+ Either reformat the key to PKCS#1 format using ``$ openssl rsa -in input.key -out decrypted_key`` or install cryptography using ``$ pip install cryptography``.
 	+ Put the private key in a file called ``decrypted_key`` beside this ``README.rst`` file.
 
 Setup
