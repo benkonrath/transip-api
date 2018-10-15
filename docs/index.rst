@@ -22,7 +22,7 @@ You can get the library directly from PyPI::
 Documentation
 -------------
 
-This part of the documentation quides you through all of the library's
+This part of the documentation guides you through all of the library's
 usage patterns.
 
 .. toctree::
