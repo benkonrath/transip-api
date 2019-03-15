@@ -63,11 +63,24 @@ class Client(object):
     A client-base class, for other classes to base their service implementation
     on. Contains methods to set and sign cookie and to retrieve the correct
     WSDL for specific parts of the TransIP API.
-    """
 
-    def __init__(self, service_name, login, private_key_file='decrypted_key', endpoint='api.transip.nl'):
+    Note:
+        You either need to supply a private_key or a private_key_file.
+
+    Args:
+        service_name (str): Name of the service.
+        login (str): The TransIP username.
+        private_key (str, optional): The content of the private key for
+            accessing the TransIP API.
+        private_key_file (str, optional): Path the the private key for
+            accesing the TransIP API. Defaults to 'decrypted_key'.
+        endpoint (str): The TransIP API endpoint. Defaults to 'api.transip.nl'.
+    """
+    def __init__(self, service_name, login, private_key=None,
+                 private_key_file='decrypted_key', endpoint='api.transip.nl'):
         self.service_name = service_name
         self.login = login
+        self.private_key = private_key
         self.private_key_file = private_key_file
         self.endpoint = endpoint
         self.url = URI_TEMPLATE.format(endpoint, service_name)
@@ -83,33 +96,35 @@ class Client(object):
 
     def _sign(self, message):
         """ Uses the decrypted private key to sign the message. """
-        if os.path.exists(self.private_key_file):
+        if self.private_key:
+            keydata = self.private_key
+        elif os.path.exists(self.private_key_file):
             with open(self.private_key_file) as private_key:
                 keydata = private_key.read()
-
-                if HAS_CRYPTOGRAPHY:
-                    private_key = serialization.load_pem_private_key(
-                        keydata,
-                        password=None,
-                        backend=default_backend()
-                    )
-                    signature = private_key.sign(
-                        message,
-                        padding.PKCS1v15(),
-                        hashes.SHA512(),
-                    )
-                else:
-                    privkey = rsa.PrivateKey.load_pkcs1(keydata)
-                    signature = rsa.sign(
-                        message.encode('utf-8'), privkey, 'SHA-512'
-                    )
-
-                signature = base64.b64encode(signature)
-                signature = quote_plus(signature)
-
-            return signature
         else:
             raise RuntimeError('The private key does not exist.')
+
+        if HAS_CRYPTOGRAPHY:
+            private_key = serialization.load_pem_private_key(
+                keydata,
+                password=None,
+                backend=default_backend()
+            )
+            signature = private_key.sign(
+                message,
+                padding.PKCS1v15(),
+                hashes.SHA512(),
+            )
+        else:
+            privkey = rsa.PrivateKey.load_pkcs1(keydata)
+            signature = rsa.sign(
+                message.encode('utf-8'), privkey, 'SHA-512'
+            )
+
+        signature = base64.b64encode(signature)
+        signature = quote_plus(signature)
+
+        return signature
 
     def _build_signature_message(self, service_name, method_name,
                                  timestamp, nonce, additional=None):

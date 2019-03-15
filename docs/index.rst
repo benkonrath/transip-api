@@ -10,7 +10,16 @@ Here is an example of a simple Python program:
    from transip.service.vps import VpsService
 
 
-   client = VpsService('accountname')
+   PRIVATE_KEY = '''
+   -----BEGIN PRIVATE KEY-----
+   ...
+   -----END PRIVATE KEY-----
+   '''
+
+   # You can specify the private key directly or supply the path to the private
+   # key file. The private_key_file will default to `decrypted_key`.
+   client = VpsService('accountname', private_key_file='/path/to/decrypted_key')
+   client = VpsService('accountname', private_key=PRIVATE_KEY)
 
    # Order a Vps without addons:
    client.order_vps('vps-bladevps-x1', None, 'ubuntu-18.04', 'vps-name')
