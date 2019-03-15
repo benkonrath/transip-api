@@ -6,4 +6,4 @@
     For usage of the API itself, please see https://www.transip.eu/transip/api/
 """
 
-__version__ = '0.4.1'
+__version__ = '1.0.0'
