@@ -21,7 +21,7 @@ deploy:
   provider: pypi
   user: roaldnefs
   password:
-    secure: "ej8lf26roItqLNrfsLxFVNWjLVipoVo62wNGsobj2x3AcuzqVRreHw3pTapmDXjNf9/fpsDLHx14ljI7k+WfUNwB51depqwleWG5cEZyNMP1A365a/j7QfGiE/aiS/Nmi0A6U7eiovku9PiBY0TL3JqU/Mx6w9dA0C9yCRkxIKg="
+    secure: "ahpUlrwDpSzVETim897QkLZNGdK3MUZJWghAd3U9idPaIo/Ax21jgPJ0emRQxBOEmK+ztcxVkm5GKU5IZQYbBbTZeppi+xV0a3MeCwmMIrwDZCYxc8uZPjbqmqLjaO3dd5lNcpOXkDXXhr5LGtUIsRKhI9oLb6l+ZfbmuF4niBw="
   on:
     repo: benkonrath/transip-api
     tags: true
