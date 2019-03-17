@@ -43,7 +43,7 @@ setup(
     },
     install_requires=[
         'requests',
-        'rsa',
+        'cryptography',
         'suds-jurko',
     ],
     classifiers=[

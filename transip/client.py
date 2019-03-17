@@ -10,7 +10,10 @@ import time
 import uuid
 from collections import OrderedDict
 
-import rsa
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.asymmetric import padding
 from suds.client import Client as SudsClient
 from suds.sudsobject import Object as SudsObject
 from suds.xsd.doctor import Import, ImportDoctor
@@ -27,14 +30,6 @@ try:
 except ImportError:
     suds_requests = None
 
-try:
-    from cryptography.hazmat.backends import default_backend
-    from cryptography.hazmat.primitives import serialization
-    from cryptography.hazmat.primitives import hashes
-    from cryptography.hazmat.primitives.asymmetric import padding
-    HAS_CRYPTOGRAPHY = True
-except ImportError:
-    HAS_CRYPTOGRAPHY = False
 
 URI_TEMPLATE = 'https://{}/wsdl/?service={}'
 
@@ -104,22 +99,16 @@ class Client(object):
         else:
             raise RuntimeError('The private key does not exist.')
 
-        if HAS_CRYPTOGRAPHY:
-            private_key = serialization.load_pem_private_key(
-                str.encode(keydata),
-                password=None,
-                backend=default_backend()
-            )
-            signature = private_key.sign(
-                str.encode(message),
-                padding.PKCS1v15(),
-                hashes.SHA512(),
-            )
-        else:
-            privkey = rsa.PrivateKey.load_pkcs1(keydata)
-            signature = rsa.sign(
-                message.encode('utf-8'), privkey, 'SHA-512'
-            )
+        private_key = serialization.load_pem_private_key(
+            str.encode(keydata),
+            password=None,
+            backend=default_backend()
+        )
+        signature = private_key.sign(
+            str.encode(message),
+            padding.PKCS1v15(),
+            hashes.SHA512(),
+        )
 
         signature = base64.b64encode(signature)
         signature = quote_plus(signature)
