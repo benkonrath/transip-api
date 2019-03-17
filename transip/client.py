@@ -106,12 +106,12 @@ class Client(object):
 
         if HAS_CRYPTOGRAPHY:
             private_key = serialization.load_pem_private_key(
-                keydata,
+                str.encode(keydata),
                 password=None,
                 backend=default_backend()
             )
             signature = private_key.sign(
-                message,
+                str.encode(message),
                 padding.PKCS1v15(),
                 hashes.SHA512(),
             )
