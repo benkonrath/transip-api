@@ -5,6 +5,11 @@ Changelog
 This document records all notable changes to `transip-api <https://github.com/benkonrath/transip-api>`_.
 This project adheres to `Semantic Versioning <http://semver.org/>`_.
 
+`2.0.0`_ (2019-03-17)
+---------------------
+
+* Changed default cryptography library from rsa to cryptography
+
 `1.0.1`_ (2019-03-17)
 ---------------------
 
@@ -40,3 +45,4 @@ This project adheres to `Semantic Versioning <http://semver.org/>`_.
 .. _0.4.1: https://github.com/benkonrath/transip-api/compare/0.4.0...0.4.1
 .. _1.0.0: https://github.com/benkonrath/transip-api/compare/0.4.1...v1.0.0
 .. _1.0.1: https://github.com/benkonrath/transip-api/compare/v1.0.0...v1.0.1
+.. _2.0.0: https://github.com/benkonrath/transip-api/compare/v1.0.1...v2.0.0
