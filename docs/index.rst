@@ -24,9 +24,9 @@ Here is an example of a simple Python program:
    # Order a Vps without addons:
    client.order_vps('vps-bladevps-x1', None, 'ubuntu-18.04', 'vps-name')
 
-You can get the library directly from PyPI::
+You can get the library directly from PyPi::
 
-   pip install transip-api
+   pip install transip
 
 Documentation
 -------------

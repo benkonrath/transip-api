@@ -29,10 +29,11 @@ Prerequisite
 Setup
 -----
 
+You can get the library directly from PyPi:
+
 .. code-block::
 
-	$ python setup.py install
-
+    $ pip install transip
 
 Example
 -------
