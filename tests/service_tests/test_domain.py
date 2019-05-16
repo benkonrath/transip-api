@@ -102,6 +102,41 @@ class TestDomainService(unittest.TestCase):
         ds.update_cookie.assert_called_with({"cookie": "value"})
         i.service.setDnsEntries.assert_called_with('domain1', [dns_entry, ])
 
+    @patch('transip.client.SudsClient')
+    def test_add_dns_entries(self, mock_client):
+        ds = DomainService('sundayafternoon')
+        ds.build_cookie = Mock(return_value={'cookie': 'value'})
+        ds.update_cookie = Mock()
+        getinfo_result = Mock()
+        dns_entry1 = DnsEntry(
+            'testentry1',
+            86400,
+            DnsEntry.TYPE_A,
+            '127.0.0.1',
+        )
+        dns_entry2 = DnsEntry(
+            'testentry2',
+            86400,
+            DnsEntry.TYPE_A,
+            '127.0.0.1',
+        )
+        getinfo_result.dnsEntries = [
+            dns_entry1,
+            dns_entry2,
+        ]
+        mock_client.return_value.service.getInfo.return_value = getinfo_result
+        dns_entry3 = DnsEntry(
+            'testentry3',
+            86400,
+            DnsEntry.TYPE_A,
+            '127.0.0.1',
+        )
+        ds.add_dns_entries('domain1', [dns_entry3])
+        mock_client.return_value.service.setDnsEntries.assert_called_with(
+            'domain1',
+            [dns_entry1, dns_entry2, dns_entry3],
+        )
+
     def test_batch_check_availability(self):
         self._generic_test(
             soap_method='batchCheckAvailability',
