@@ -161,6 +161,20 @@ class DomainService(Client):
         old_dns_entries = self.get_info(domain_name).dnsEntries
         return self.set_dns_entries(domain_name, old_dns_entries + dns_entries)
 
+    def remove_dns_entries(self, domain_name, dns_entries):
+        """
+        Removes the given DnsEntries from the domain.
+        :type domain_name: str
+        :type dns_entries: list of transip.service.objects.DnsEntry to remove, cannot be empty
+        """
+        if not dns_entries:
+            raise ValueError('dns_entries cannot be empty.')
+        old_dns_entries = self.get_info(domain_name).dnsEntries
+        # Remove the DNS entries from the existing DNS entries
+        for entry in dns_entries:
+            old_dns_entries.remove(entry)
+        return self.set_dns_entries(domain_name, old_dns_entries)
+
     def set_owner(self, domain_name, registrant_whois_contact):
         """
         Transip_DomainService::batchGetInfo
