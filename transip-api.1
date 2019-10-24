@@ -1,0 +1,60 @@
+.TH TRANSIP-API "1" "October 2019" "transip-api.1 transip-api" "User Commands"
+.SH NAME
+transip-api \- program to manipulate records for Dutch DNS provider TransIP
+.SH SYNOPSIS
+.B transip-api
+.RI [ options ]
+.PP
+.SH USAGE
+.TP
+usage: transip-api [\-h] [\-l LOGINNAME] [\-s] [\-a] [\-u] [\-d]
+[\-\-domain\-name DOMAIN_NAME] [\-\-entry\-name ENTRY_NAME]
+[\-\-entry\-expire ENTRY_EXPIRE] [\-\-entry\-type ENTRY_TYPE]
+[\-\-entry\-content ENTRY_CONTENT]
+.PP
+        
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+show this help message and exit
+.TP
+\fB\-l\fR LOGINNAME, \fB\-\-login\-name\fR LOGINNAME
+TransIP username
+.TP
+\fB\-s\fR, \fB\-\-show\-dns\-entries\fR
+show all DNS entries for a domain
+.TP
+\fB\-a\fR, \fB\-\-add\-dns\-entry\fR
+add an entry in the DNS
+.TP
+\fB\-u\fR, \fB\-\-update\-dns\-entry\fR
+update an entry in the DNS
+.TP
+\fB\-d\fR, \fB\-\-delete\-dns\-entry\fR
+delete an entry in the DNS
+.TP
+\fB\-\-domain\-name\fR DOMAIN_NAME
+domain name to use
+.TP
+\fB\-\-entry\-name\fR ENTRY_NAME
+name of the DNS entry
+.TP
+\fB\-\-entry\-expire\fR ENTRY_EXPIRE
+expire time of the DNS entry
+.TP
+\fB\-\-entry\-type\fR ENTRY_TYPE
+type of the DNS entry
+.TP
+\fB\-\-entry\-content\fR ENTRY_CONTENT
+content of the DNS entry
+.PP
+.SH EXAMPLES
+Example of adding/updating a record:
+.IP
+transip-api \fB\-l\fR githubuser \fB\-u\fR \fB\-\-domain\-name\fR example.com \fB\-\-entry\-name\fR testentry \fB\-\-entry\-expire\fR 86400 \fB\-\-entry\-type\fR A \fB\-\-entry\-content\fR 127.0.0.1
+.IP
+Request finished successfully.
+.SH "SEE ALSO"
+For more information regarding
+.B transip
+see https://github.com/benkonrath/transip-api. Further documentation is available at https://transip-api.readthedocs.io/en/latest/.
