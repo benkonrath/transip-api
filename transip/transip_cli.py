@@ -99,7 +99,7 @@ def main():
     if not args.api_key_file:
         args.api_key_file = 'decrypted_key'
 
-    domain_service = DomainService(args.loginname, args.api_key_file)
+    domain_service = DomainService(args.loginname, private_key_file=args.api_key_file)
 
     if args.add_dns_entry or args.update_dns_entry or args.delete_dns_entry:
         if [args.add_dns_entry, args.update_dns_entry, args.delete_dns_entry].count(True) > 1:
