@@ -12,5 +12,7 @@ class TestDnsEntry(unittest.TestCase):
         dns_entry_two.expire = 600
         self.assertEqual(dns_entry_one, dns_entry_two)
 
+        self.assertNotEqual(dns_entry_one, [dns_entry_two])
+
         dns_entry_two.content = '127.0.0.1'
         self.assertNotEqual(dns_entry_one, dns_entry_two)
