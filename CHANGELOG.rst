@@ -5,6 +5,11 @@ Changelog
 This document records all notable changes to `transip-api <https://github.com/benkonrath/transip-api>`_.
 This project adheres to `Semantic Versioning <http://semver.org/>`_.
 
+`2.1.1`_ (2020-03-15)
+---------------------
+
+* Fixed syntax problem in README.rst.
+
 `2.1.0`_ (2020-03-15)
 ---------------------
 
@@ -54,3 +59,4 @@ This project adheres to `Semantic Versioning <http://semver.org/>`_.
 .. _1.0.1: https://github.com/benkonrath/transip-api/compare/v1.0.0...v1.0.1
 .. _2.0.0: https://github.com/benkonrath/transip-api/compare/v1.0.1...v2.0.0
 .. _2.1.0: https://github.com/benkonrath/transip-api/compare/v2.0.0...v2.1.0
+.. _2.1.1: https://github.com/benkonrath/transip-api/compare/v2.1.0...v2.1.1
