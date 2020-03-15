@@ -17,6 +17,7 @@ from cryptography.hazmat.primitives.asymmetric import padding
 from suds.client import Client as SudsClient
 from suds.sudsobject import Object as SudsObject
 from suds.xsd.doctor import Import, ImportDoctor
+from suds.plugin import DocumentPlugin
 
 from . import __version__
 
@@ -52,6 +53,18 @@ def convert_value(value):
 
     return value
 
+class WSDLFixPlugin(DocumentPlugin):
+    # pylint: disable=W0232
+    """
+    A SudsFilter to fix wsdl document before it is parsed.
+    """
+
+    def loaded(self, context):
+        # pylint: disable=R0201
+        """
+        Replaces an invalid type in the wsdl document with a validy type.
+        """
+        context.document = context.document.replace(b'xsd:array', b'soapenc:Array')
 
 class Client(object):
     """
@@ -87,7 +100,7 @@ class Client(object):
         if suds_requests:
             suds_kwargs['transport'] = suds_requests.RequestsTransport()
 
-        self.soap_client = SudsClient(self.url, doctor=doc, **suds_kwargs)
+        self.soap_client = SudsClient(self.url, doctor=doc, plugins=[WSDLFixPlugin()], **suds_kwargs)
 
     def _sign(self, message):
         """ Uses the decrypted private key to sign the message. """
