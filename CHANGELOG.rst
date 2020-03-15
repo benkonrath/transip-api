@@ -5,6 +5,13 @@ Changelog
 This document records all notable changes to `transip-api <https://github.com/benkonrath/transip-api>`_.
 This project adheres to `Semantic Versioning <http://semver.org/>`_.
 
+`2.1.0`_ (2020-03-15)
+---------------------
+
+* Added a workaround for backwards incompatible change in the TransIP SOAP API.
+* Fixed bug in `DomainService.get_info`.
+* Add `remove_dns_entries` and `add_dns_entries` functions on DomainService.
+
 `2.0.0`_ (2019-03-17)
 ---------------------
 
@@ -46,3 +53,4 @@ This project adheres to `Semantic Versioning <http://semver.org/>`_.
 .. _1.0.0: https://github.com/benkonrath/transip-api/compare/0.4.1...v1.0.0
 .. _1.0.1: https://github.com/benkonrath/transip-api/compare/v1.0.0...v1.0.1
 .. _2.0.0: https://github.com/benkonrath/transip-api/compare/v1.0.1...v2.0.0
+.. _2.1.0: https://github.com/benkonrath/transip-api/compare/v2.0.0...v2.1.0
