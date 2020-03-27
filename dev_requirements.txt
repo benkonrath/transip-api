@@ -5,5 +5,5 @@ coverage
 sphinx
 suds-jurko
 rsa
-pylint==1.9.2
+pylint==2.4.4
 -e .

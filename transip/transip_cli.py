@@ -3,6 +3,7 @@ The CLI parser for the API
 """
 import argparse
 import logging
+import sys
 
 from suds import WebFault
 
@@ -24,7 +25,7 @@ def show_dns_entries(domain_service, domain_name):
         dns_entries = domain_service.get_info(domain_name).dnsEntries
     except WebFault as err:
         print(err)
-        exit(1)
+        sys.exit(1)
     print(dns_entries)
 
 
@@ -39,14 +40,14 @@ def update_dns(domain_service, args):
         dns_entries = domain_service.get_info(args.domain_name).dnsEntries
     except WebFault as err:
         print(err)
-        exit(1)
+        sys.exit(1)
 
     number_of_entries = len(dns_entries)
     for entry in dns_entries:
         if args.add_dns_entry and entry.name == args.entry_name and entry.type == args.entry_type and \
                 entry.content == args.entry_content:
             print('The DNS entry already exists.')
-            exit(1)
+            sys.exit(1)
 
         elif args.update_dns_entry and entry.name == args.entry_name and entry.type == args.entry_type:
             dns_entries.remove(entry)
@@ -58,7 +59,7 @@ def update_dns(domain_service, args):
     if args.update_dns_entry or args.delete_dns_entry:
         if number_of_entries == len(dns_entries):
             print('The DNS entry was not found.')
-            exit(1)
+            sys.exit(1)
 
     if args.add_dns_entry or args.update_dns_entry:
         dns_entries.append(DnsEntry(args.entry_name, args.entry_expire, args.entry_type, args.entry_content))
@@ -67,7 +68,7 @@ def update_dns(domain_service, args):
         result = domain_service.set_dns_entries(args.domain_name, dns_entries)
     except WebFault as err:
         print(err)
-        exit(1)
+        sys.exit(1)
     if result is None:
         print('Request finished successfully.')
     else:
@@ -92,7 +93,7 @@ def main():
 
     if not args.loginname:
         print('Please provide your TransIP username.')
-        exit(1)
+        sys.exit(1)
 
     if not args.api_key_file:
         args.api_key_file = 'decrypted_key'
@@ -103,19 +104,19 @@ def main():
         if [args.add_dns_entry, args.update_dns_entry, args.delete_dns_entry].count(True) > 1:
             print('Please use only one of the options: '
                   '-a/--add-dns-entry, -u/--update-dns-entry, -d/--delete-dns-entry')
-            exit(1)
+            sys.exit(1)
 
         if args.domain_name and args.entry_name and args.entry_expire and args.entry_type and args.entry_content:
             update_dns(domain_service, args)
         else:
             print('Please provide the details of the DNS entry.')
-            exit(1)
+            sys.exit(1)
     elif args.show_dns_entries:
         if args.domain_name:
             show_dns_entries(domain_service, args.domain_name)
         else:
             print('Please provide the domain name.')
-            exit(1)
+            sys.exit(1)
     else:
         names = domain_service.get_domain_names()
         print(names)
