@@ -40,7 +40,7 @@ class DnsEntry(SudsObject):
         :type record_type: basestring
         :type content: basestring
         """
-        super(DnsEntry, self).__init__()
+        super().__init__()
 
         # Assign the fields
         self.name = name
@@ -63,7 +63,7 @@ class Domain(SudsObject):
     """
 
     def __init__(self, name):
-        super(Domain, self).__init__()
+        super().__init__()
 
         self.name = name
         self.nameservers = []
@@ -82,7 +82,7 @@ class Nameserver(SudsObject):
     """
 
     def __init__(self, hostname, ipv4=None, ipv6=None):
-        super(Nameserver, self).__init__()
+        super().__init__()
 
         self.hostname = hostname
         self.ipv4 = ipv4
@@ -95,7 +95,7 @@ class WhoisContract(SudsObject):
     """
 
     def __init__(self):
-        super(WhoisContract, self).__init__()
+        super().__init__()
 
         self.type = ''
         self.firstName = ''
@@ -120,7 +120,7 @@ class DomainBranding(SudsObject):
     """
 
     def __init__(self):
-        super(DomainBranding, self).__init__()
+        super().__init__()
 
         self.companyName = ''
         self.supportEmail = ''
@@ -137,7 +137,7 @@ class WebhostingPackage(SudsObject):
     """
 
     def __init__(self, name, description, price, renewalPrice):
-        super(WebhostingPackage, self).__init__()
+        super().__init__()
 
         self.name = name
         self.description = description
@@ -151,7 +151,7 @@ class WebHost(SudsObject):
     """
 
     def __init__(self, domainName):
-        super(WebHost, self).__init__()
+        super().__init__()
 
         self.domainName = domainName
         self.cronjobs = None
@@ -172,7 +172,7 @@ class MailBox(SudsObject):
     SPAMCHECKER_STRENGTH_HIGH = 'HIGH'
 
     def __init__(self, address, maxDiskUsage=20):
-        super(MailBox, self).__init__()
+        super().__init__()
 
         self.address = address
         self.spamCheckerStrength = MailBox.SPAMCHECKER_STRENGTH_AVERAGE
@@ -197,7 +197,7 @@ class MailForward(SudsObject):
     """
 
     def __init__(self, name, targetAddress):
-        super(MailForward, self).__init__()
+        super().__init__()
         self.name = name
         self.targetAddress = targetAddress
 
@@ -226,7 +226,7 @@ class Tld(SudsObject):
     CAPABILITY_CANSETNAMESERVERS = 'canSetNameservers'
 
     def __init__(self, name):
-        super(Tld, self).__init__()
+        super().__init__()
 
         self.name = name
         self.price = 0.0
@@ -242,7 +242,7 @@ class DomainAction(SudsObject):
     """
 
     def __init__(self, name, hasFailed, message):
-        super(DomainAction, self).__init__()
+        super().__init__()
 
         self.name = name
         self.hasFailed = hasFailed
@@ -255,7 +255,7 @@ class WhoisContact(SudsObject):
     """
 
     def __init__(self):
-        super(WhoisContact, self).__init__()
+        super().__init__()
 
         self.type = ''
         self.firstName = ''
@@ -290,7 +290,7 @@ class DomainCheckResult(SudsObject):
     ACTION_INTERNALPULL = 'internalpull'
 
     def __init__(self, domainName, status, actions):
-        super(DomainCheckResult, self).__init__()
+        super().__init__()
 
         self.domainName = domainName
         self.status = status

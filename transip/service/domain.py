@@ -1,7 +1,7 @@
 # pylint: disable=too-many-public-methods
 """ The connector to Domain related API calls """
 
-from transip.client import Client, MODE_RO, MODE_RW
+from transip.client import MODE_RO, MODE_RW, Client
 from transip.service.objects import DnsEntry
 
 
@@ -9,7 +9,7 @@ class DomainService(Client):
     """ Representation of the DomainService API calls for TransIP """
 
     def __init__(self, *args, **kwargs):
-        super(DomainService, self).__init__('DomainService', *args, **kwargs)
+        super().__init__('DomainService', *args, **kwargs)
 
     def batch_check_availability(self, domain_names):
         """

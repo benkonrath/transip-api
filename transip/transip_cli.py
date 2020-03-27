@@ -1,8 +1,6 @@
 """
 The CLI parser for the API
 """
-from __future__ import print_function
-
 import argparse
 import logging
 

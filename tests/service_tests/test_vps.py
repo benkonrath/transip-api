@@ -1,7 +1,7 @@
 import unittest
 
-from transip.service import VpsService
 from transip.client import MODE_RO, MODE_RW
+from transip.service import VpsService
 
 try:
     from unittest.mock import Mock, patch

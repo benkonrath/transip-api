@@ -1,9 +1,6 @@
 """
 The Client class, handling direct communication with the API
 """
-
-from __future__ import print_function
-
 import base64
 import os
 import time
@@ -11,13 +8,12 @@ import uuid
 from collections import OrderedDict
 
 from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding
 from suds.client import Client as SudsClient
+from suds.plugin import DocumentPlugin
 from suds.sudsobject import Object as SudsObject
 from suds.xsd.doctor import Import, ImportDoctor
-from suds.plugin import DocumentPlugin
 
 from . import __version__
 
@@ -53,6 +49,7 @@ def convert_value(value):
 
     return value
 
+
 class WSDLFixPlugin(DocumentPlugin):
     # pylint: disable=W0232
     """
@@ -66,7 +63,8 @@ class WSDLFixPlugin(DocumentPlugin):
         """
         context.document = context.document.replace(b'xsd:array', b'soapenc:Array')
 
-class Client(object):
+
+class Client:
     """
     A client-base class, for other classes to base their service implementation
     on. Contains methods to set and sign cookie and to retrieve the correct

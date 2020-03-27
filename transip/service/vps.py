@@ -1,13 +1,14 @@
 # pylint: disable=too-many-public-methods
 """ The connector to VPS related API calls """
 
-from transip.client import Client, MODE_RO, MODE_RW
+from transip.client import MODE_RO, MODE_RW, Client
+
 
 class VpsService(Client):
     """ Representation of the VpsService API calls for TransIP """
 
     def __init__(self, *args, **kwargs):
-        super(VpsService, self).__init__('VpsService', *args, **kwargs)
+        super().__init__('VpsService', *args, **kwargs)
 
     def get_available_products(self):
         """ Get available VPS products """

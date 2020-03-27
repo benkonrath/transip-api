@@ -1,7 +1,7 @@
 import unittest
 
 from transip.client import MODE_RO, MODE_RW
-from transip.service.objects import WebHost, MailBox, MailForward
+from transip.service.objects import MailBox, MailForward, WebHost
 from transip.service.webhosting import WebhostingService
 
 try:

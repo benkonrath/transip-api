@@ -1,14 +1,10 @@
 # vim: set fileencoding=utf-8 :
 import unittest
+from collections import OrderedDict
+from unittest.mock import Mock, patch
 
 import transip
-from collections import OrderedDict
-from transip.client import Client, MODE_RO
-
-try:
-    from unittest.mock import Mock, patch
-except ImportError:
-    from mock import patch, Mock
+from transip.client import MODE_RO, Client
 
 
 class TestClient(unittest.TestCase):
@@ -164,4 +160,3 @@ class TestClient(unittest.TestCase):
         c.update_cookie(cookies)
         # VERIFY
         c.soap_client.set_options.assert_called_with(headers={'Cookie': 'foo=bar;baz=qux'})
-

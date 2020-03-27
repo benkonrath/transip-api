@@ -1,7 +1,7 @@
 """
 Implementation of the WebhostingService API endpoint
 """
-from transip.client import Client, MODE_RW
+from transip.client import MODE_RW, Client
 
 
 class WebhostingService(Client):
@@ -10,10 +10,7 @@ class WebhostingService(Client):
     """
 
     def __init__(self, *args, **kwargs):
-        """
-        Constructor
-        """
-        super(WebhostingService, self).__init__('WebhostingService', *args, **kwargs)
+        super().__init__('WebhostingService', *args, **kwargs)
 
     def get_webhosting_domain_names(self):
         """

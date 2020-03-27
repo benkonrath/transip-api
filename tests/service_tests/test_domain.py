@@ -1,7 +1,7 @@
 import unittest
 
-from transip.service import DomainService
 from transip.client import MODE_RO, MODE_RW
+from transip.service import DomainService
 from transip.service.objects import DnsEntry
 
 try:

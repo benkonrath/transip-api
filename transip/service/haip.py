@@ -1,13 +1,14 @@
 # pylint: disable=too-many-public-methods
 """ The connector to HA-IP related API calls """
 
-from transip.client import Client, MODE_RO, MODE_RW
+from transip.client import MODE_RO, MODE_RW, Client
+
 
 class HaipService(Client):
     """ Representation of the HaipService API calls for TransIP """
 
     def __init__(self, *args, **kwargs):
-        super(HaipService, self).__init__('HaipService', *args, **kwargs)
+        super().__init__('HaipService', *args, **kwargs)
 
     def get_haip(self, haip_name):
         """ Get a HA-IP by name """
