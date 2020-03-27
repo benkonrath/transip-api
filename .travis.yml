@@ -1,11 +1,10 @@
-sudo: no
+sudo: false
 language: python
 cache: pip
 
 python:
   - "3.6"
   - "3.5"
-  - "3.4"
 
 install:
  - pip install -r dev_requirements.txt
