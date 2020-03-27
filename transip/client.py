@@ -79,7 +79,7 @@ class Client:
         private_key (str, optional): The content of the private key for
             accessing the TransIP API.
         private_key_file (str, optional): Path the the private key for
-            accesing the TransIP API. Defaults to 'decrypted_key'.
+            accessing the TransIP API. Defaults to 'decrypted_key'.
         endpoint (str): The TransIP API endpoint. Defaults to 'api.transip.nl'.
     """
     def __init__(self, service_name, login, private_key=None,
