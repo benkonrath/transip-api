@@ -1,0 +1,12 @@
+include *.1
+include *.rst
+include *.txt
+include .pylintrc
+include LICENSE
+include test
+include test_key
+recursive-include docs *.bat
+recursive-include docs *.py
+recursive-include docs *.rst
+recursive-include docs Makefile
+recursive-include tests *.py

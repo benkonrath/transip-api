@@ -6,4 +6,5 @@ sphinx
 suds-jurko
 rsa
 pylint==2.4.4
+check-manifest
 -e .
