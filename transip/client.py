@@ -53,6 +53,7 @@ def convert_value(value):
 
     return value
 
+
 class WSDLFixPlugin(DocumentPlugin):
     # pylint: disable=W0232
     """
@@ -66,7 +67,9 @@ class WSDLFixPlugin(DocumentPlugin):
         """
         context.document = context.document.replace(b'xsd:array', b'soapenc:Array')
 
+
 class Client(object):
+    # pylint: disable=R0205
     """
     A client-base class, for other classes to base their service implementation
     on. Contains methods to set and sign cookie and to retrieve the correct
