@@ -44,7 +44,7 @@ update DNS records. When calling it with '-h', it will show all available option
 
 .. code-block::
 
-	$ transip-api
+	$ transip-api -l username
 	[example.com, example.org, example.net]
 
 	$ transip-api -h
@@ -82,7 +82,7 @@ Example of adding/updating a record:
 
 .. code-block::
 
-	$ transip-api -l githubuser -u --api-key privatekey --domain-name example.com --entry-name testentry --entry-expire 86400 --entry-type A --entry-content 127.0.0.1
+	$ transip-api -l username -u --api-key privatekey --domain-name example.com --entry-name testentry --entry-expire 86400 --entry-type A --entry-content 127.0.0.1
 	Request finished successfully.
 
 
