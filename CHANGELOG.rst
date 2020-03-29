@@ -5,6 +5,12 @@ Changelog
 This document records all notable changes to `transip-api <https://github.com/benkonrath/transip-api>`_.
 This project adheres to `Semantic Versioning <http://semver.org/>`_.
 
+`2.1.2`_ (2020-03-29)
+---------------------
+
+* Fix --api-key CLI argument.
+* Test on Python 3.7 & 3.8.
+
 `2.1.1`_ (2020-03-15)
 ---------------------
 
