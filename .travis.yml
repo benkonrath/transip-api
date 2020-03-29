@@ -15,7 +15,8 @@ install:
 
 script: 
  - nosetests --rednose --with-coverage --cover-package=transip
- - pylint --rcfile=.pylintrc transip
+# There is no version of pylint that covers Python 2.7 and 3.4 - 3.8.
+# - pylint --rcfile=.pylintrc transip
 
 # Deploy a new release to PyPi for every new tag on the 'master' branch on the
 # repository 'benkonrath/transip-api'.

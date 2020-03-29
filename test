@@ -2,5 +2,6 @@
 
 find . -name \*.pyc -delete
 nosetests --rednose --with-coverage --cover-package=transip
-echo "------------------------------------------------------"
-pylint --rcfile=.pylintrc transip
+# There is no version of pylint that covers Python 2.7 and 3.4 - 3.8.
+# echo "------------------------------------------------------"
+# pylint --rcfile=.pylintrc transip

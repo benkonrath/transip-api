@@ -8,5 +8,6 @@ suds-jurko
 rsa
 # colorama dropped Python 3.4 in releases >= 0.4.2
 colorama==0.4.1
-pylint==2.4.4
+# There is no version of pylint that covers Python 2.7 and 3.4 - 3.8.
+# pylint==2.4.4
 -e .
