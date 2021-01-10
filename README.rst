@@ -11,7 +11,9 @@ TransIP API
    :target: https://transip-api.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
 
-This library aims to implement the `TransIP API`_ in Python.
+This library aims to implement the `TransIP SOAP V5 API`_ in Python. The SOAP V5 API is marked as **deprecated** by TransIP, users are strongly advised to switch to the new `TransIP REST API V6`_.
+
+If you would like to use the new `TransIP REST API V6`_, please consider using `python-transip`_ instead.
 
 Quick Start
 ===========
@@ -93,7 +95,9 @@ Further documentation can be found in the ``docs`` directory, or on https://tran
 
 .. _virtualenv: http://virtualenv.org/
 .. _TransIP: https://www.transip.nl/cp/
-.. _`TransIP API`: https://www.transip.eu/transip/api/
+.. _`TransIP SOAP V5 API`: https://api.transip.eu/docs/transip.nl/package-Transip.html
+.. _`TransIP REST API V6`: https://api.transip.eu/rest/docs.html
+.. _`python-transip`: https://github.com/roaldnefs/python-transip
 
 FAQ
 ===
