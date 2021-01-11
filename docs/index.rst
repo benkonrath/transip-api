@@ -1,7 +1,13 @@
 Welcome to transip-api's documentation!
 =======================================
 
-This library aims to implement the TransIP API in Python.
+This library aims to implement the `TransIP SOAP V5 API`_ in Python. The SOAP V5 API is marked as **deprecated** by TransIP, users are strongly advised to switch to the new `TransIP REST API V6`_.
+
+If you would like to use the new `TransIP REST API V6`_, please consider using `python-transip`_ instead.
+
+.. _`TransIP SOAP V5 API`: https://api.transip.eu/docs/transip.nl/package-Transip.html
+.. _`TransIP REST API V6`: https://api.transip.eu/rest/docs.html
+.. _`python-transip`: https://github.com/roaldnefs/python-transip
 
 Here is an example of a simple Python program:
 
